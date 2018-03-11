@@ -1,0 +1,43 @@
+
+注：
+前端的请求来了之后会交给Controller转发 你们根据TestController 来增加自己需要的Controller
+Controller只负责转发 没有逻辑处理，controller把请求交给Service处理
+
+同样的 仿照TestService写你们需要的service
+
+service会通过Dao层拿数据库中的数据 redis的数据通过 RedisClient 来拿
+mysql的数据：根据自己的表创建实体 （entity->User） 然后写 Dao（UserDao） 在写mybatis的mapping(Usermapper.xml)
+可以仿照User的来，要根据需要的sql语句改Dao和mapping
+
+mysql的表结构你们先自己设计一下，想一想自己要实现的功能，尽量少改动
+mysql表结构的命名规范：
+user表：user_name user_phone ...
+
+
+上线：
+前端：连接下面的ftp 把你的代码覆盖一下就行了
+后端：把原来的进程杀掉 springBoot install打个包，上传jar包， java -jar *** 执行一下就行了
+
+ps -ef|grep java
+java -jar backend-0.0.1-SNAPSHOT.jar > log.file 2>&1 &
+tail -f log.file
+连接配置：
+
+#server
+47.94.205.153 root QDU.freestyle.top000  (mysql+redis)
+47.94.132.242 root QDU.freestyle.top000  (前端h5)
+47.94.154.27  root QDU.freestyle.top000  (后端)
+
+#redis
+47.94.205.153:6379
+
+#mysql
+47.94.205.153:3306
+user:root
+password:QDU.freestyle.top000
+
+#ftp
+47.94.132.242:21
+user:qdu
+password:qdu
+
