@@ -19,8 +19,8 @@ user表：user_name user_phone ...
 后端：把原来的进程杀掉 springBoot install打个包，上传jar包， java -jar *** 执行一下就行了
 
 ps -ef|grep java
-java -jar backend-0.0.1-SNAPSHOT.jar > log.file 2>&1 &
-tail -f log.file
+nohup java -jar backend-0.0.1-SNAPSHOT.jar > logger.log &
+tail -f logger.log
 连接配置：
 
 #server
