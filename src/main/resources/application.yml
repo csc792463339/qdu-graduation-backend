@@ -1,7 +1,7 @@
 spring:
     datasource:
         name: test
-        url: jdbc:mysql://47.94.205.153:3306/qdu
+        url: jdbc:mysql://47.94.205.153:3306/qdu?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
         username: root
         password: QDU.freestyle.top000
         # 使用druid数据源

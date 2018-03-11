@@ -1,5 +1,6 @@
 package qdu.graduation.backend;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,13 @@ public class AppTests {
 //        System.out.println(client.get("hello"));
         User user=new User();
         user.setId(1);
-        user.setUserName("csc");
+        user.setUserName("反反复复");
         user.setPassword("password");
         user.setAge(18);
-        userDao.insert(user);
+     //   userDao.insert(user);
+        String res=JSON.toJSONString(userDao.selectAll());
+        System.out.println(res);
+
     }
 
 }
