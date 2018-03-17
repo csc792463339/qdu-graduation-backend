@@ -36,7 +36,7 @@ public class TestController {
     @ResponseBody
     public Object allAcount() {
         logger.info("Get All Account");
-        return testService.allUser();
+        return "";
     }
 
 }

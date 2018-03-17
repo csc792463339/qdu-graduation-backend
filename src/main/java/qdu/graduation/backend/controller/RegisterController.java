@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.services.RegisterService;
-import qdu.graduation.backend.services.TestService;
 
 import javax.annotation.Resource;
 
@@ -22,26 +21,31 @@ public class RegisterController {
     @Resource
     private RegisterService registerService;
 
-    @RequestMapping(value = "/student/sendsms", method = RequestMethod.POST)
+    @RequestMapping(value = "/sendsms", method = RequestMethod.POST)
     @ResponseBody
     public Object addAcount(String phone) {
-        logger.info("学生-" + phone + "申请注册");
+        logger.info("用户-" + phone + "申请注册");
         return registerService.sendSms(phone);
     }
 
-    @RequestMapping(value = "/student/checkcode", method = RequestMethod.POST)
+    @RequestMapping(value = "/checkcode", method = RequestMethod.POST)
     @ResponseBody
     public Object checkCode(String phone, String code) {
-        logger.info("学生-:" + phone + "验证短信");
+        logger.info("用户-:" + phone + "验证短信");
         return registerService.checkCode(phone, code);
     }
 
-    @RequestMapping(value = "/student/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/student", method = RequestMethod.POST)
     @ResponseBody
-    public Object addStudent(String phone, String name, String password, String gender) {
+    public Object addStudent(String phone, String name, String password) {
         logger.info("学生-:" + phone + ",姓名:" + name + " 开始注册");
-        return registerService.addStudent(phone, name, password, gender);
+        return registerService.addStudent(phone, name, password);
     }
 
-
+    @RequestMapping(value = "/add/teacher", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addTeacher(String phone, String name, String password) {
+        logger.info("老师-:" + phone + ",姓名:" + name + " 开始注册");
+        return registerService.addTeacher(phone, name, password);
+    }
 }

@@ -53,8 +53,8 @@ public class RedisPool {
      */
     public void returnResource(final Jedis jedis) {
         if (jedis != null) {
-            jedis.close();
-            //jedisPool.returnResourceObject(jedis);
+            //jedis.close();
+            jedisPool.returnResourceObject(jedis);
         }
     }
 }  

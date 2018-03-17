@@ -1,24 +1,24 @@
 package qdu.graduation.backend.dao;
 
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import qdu.graduation.backend.entity.User;
 
-import java.util.List;
-
-@Component
+@Repository
 public interface UserDao {
-
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer userId);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer id);
+    User selectByPrimaryKey(Integer userId);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
-    List<User> selectAll();
+    String existPhone(String phone);
+
+    User selectByPhone(@Param("phone") String phone);
 }

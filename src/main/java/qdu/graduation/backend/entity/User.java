@@ -1,20 +1,26 @@
 package qdu.graduation.backend.entity;
 
+import java.util.Date;
+
 public class User {
-    private Integer id;
+    private Integer userId;
 
     private String userName;
 
-    private String password;
+    private String userPassword;
 
-    private Integer age;
+    private String userPhone;
 
-    public Integer getId() {
-        return id;
+    private String userType;
+
+    private Date createTime;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -25,19 +31,35 @@ public class User {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
-    public Integer getAge() {
-        return age;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone == null ? null : userPhone.trim();
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType == null ? null : userType.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

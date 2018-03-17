@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Component("redisClient")
@@ -59,6 +60,12 @@ public class RedisClient {
     public void set(String key, String value, int liveTime) {
         Jedis jedis = redisPool.getJedis();
         jedis.set(key, value);
+        jedis.expire(key, liveTime);
+        redisPool.returnResource(jedis);
+    }
+
+    public void expire(String key, int liveTime) {
+        Jedis jedis = redisPool.getJedis();
         jedis.expire(key, liveTime);
         redisPool.returnResource(jedis);
     }
@@ -198,7 +205,38 @@ public class RedisClient {
         redisPool.returnResource(jedis);
         return str;
     }
+
     /*********************redis list操作结束**************************/
+
+
+    public long hset(String key, String field, String value) {
+        Jedis jedis = redisPool.getJedis();
+        long res = jedis.hset(key, field, value);
+        redisPool.returnResource(jedis);
+        return res;
+    }
+
+    public String hget(String key, String field) {
+        Jedis jedis = redisPool.getJedis();
+        String value = jedis.hget(key, field);
+        redisPool.returnResource(jedis);
+        return value;
+    }
+
+    public Map<String, String> hgetall(String key) {
+        Jedis jedis = redisPool.getJedis();
+        Map<String, String> map = jedis.hgetAll(key);
+        redisPool.returnResource(jedis);
+        return map;
+    }
+
+
+    public long hdel(String key, String field) {
+        Jedis jedis = redisPool.getJedis();
+        long res = jedis.hdel(key, field);
+        redisPool.returnResource(jedis);
+        return res;
+    }
 
     /**
      * 清空redis 所有数据

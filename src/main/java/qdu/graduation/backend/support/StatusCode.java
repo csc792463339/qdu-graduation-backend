@@ -1,4 +1,4 @@
-package qdu.graduation.backend.entity;
+package qdu.graduation.backend.support;
 
 public enum StatusCode {
     /*全局统一状态码*/
@@ -6,6 +6,7 @@ public enum StatusCode {
     //成功-2XX
     success("200", "成功"),
     sendSms("201", "短信验证码已发送成功"),
+    waitApproval("202", "提交成功,等待管理员审核"),
 
     //错误-3XX
     error("300", "错误"),
@@ -15,7 +16,9 @@ public enum StatusCode {
     //失败-4XX
     failed("400", "失败！"),
     phoneHasRegister("401", "该手机号已注册！"),
-    codeWrong("402", "短信验证码错误！");
+    codeWrong("402", "短信验证码错误！"),
+    passWrong("403", "密码错误！"),
+    userNotExist("404", "用户不存在！"),;
 
     private String msg;
     private String code;

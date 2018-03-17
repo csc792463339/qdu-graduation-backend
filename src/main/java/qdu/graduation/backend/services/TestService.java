@@ -27,16 +27,16 @@ public class TestService {
 
     public String addUser(String account, String password) {
         User user = new User();
-        user.setId(666);
-        user.setAge(18);
-        user.setUserName(account);
-        user.setPassword(password);
+//        user.setId(666);
+//        user.setAge(18);
+//        user.setUserName(account);
+//        user.setPassword(password);
         return userDao.insert(user) + "";
     }
 
-    public String allUser() {
-        return JSON.toJSONString(userDao.selectAll());
-    }
+//    public String allUser() {
+//        return JSON.toJSONString(userDao.selectAll());
+//    }
 
 }
 
