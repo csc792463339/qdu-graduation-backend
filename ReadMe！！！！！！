@@ -29,7 +29,7 @@ tail -f logger.log
 47.94.154.27  root QDU.freestyle.top000  (后端)
 
 #redis
-47.94.205.153:6379
+47.94.205.153:6378
 
 #mysql
 47.94.205.153:3306

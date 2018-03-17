@@ -34,7 +34,7 @@ public class LoginService {
                 return StatusCode.passWrong.toString();
             }
 
-            logger.info(user.getUserType() + ":" + phone + ":" + StatusCode.success.toString());
+            logger.info(user.getUserType() + ":" + phone + ":登录成功:" + StatusCode.success.toString());
             redisClient.hset(phone, "name", user.getUserName());
             redisClient.hset(phone, "type", user.getUserType());
             redisClient.expire(phone, 86400);
