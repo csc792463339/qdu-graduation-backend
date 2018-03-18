@@ -41,11 +41,15 @@ public class RegisterService {
                 return StatusCode.hasSendSms.toString();
             }
             String code = CodeUtil.randomCode();
-            sendSmsService.sendCode(phone, code);
-            redisClient.hset(phone, "code", code);
-            redisClient.expire(phone, 300);
-            logger.info(phone + ":" + StatusCode.sendSms.toString());
-            return StatusCode.sendSms.toString();
+            if (sendSmsService.sendCode(phone, code)) {
+                redisClient.hset(phone, "code", code);
+                redisClient.expire(phone, 300);
+                logger.info(phone + ":" + StatusCode.sendSms.toString());
+                return StatusCode.sendSms.toString();
+            } else {
+                logger.info(phone + ":" + StatusCode.sendSmsFailed.toString());
+                return phone + ":" + StatusCode.sendSmsFailed.toString();
+            }
         } catch (Exception e) {
             logger.error(e.getMessage());
             return StatusCode.failed.toString();

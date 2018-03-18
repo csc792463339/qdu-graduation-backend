@@ -37,7 +37,7 @@ public class AppTests {
 //        String id=userDao.existPhone("123");
 //        System.out.println(id);
 
-//        User user=userDao.selectByPhoneAndPassword("15621009628","123456");
+//        User user=userDao.selectByPhone("15621009628","123456");
 
 //        System.out.println(JSON.toJSONString(user));
 

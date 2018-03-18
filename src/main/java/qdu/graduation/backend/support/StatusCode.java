@@ -18,7 +18,9 @@ public enum StatusCode {
     phoneHasRegister("401", "该手机号已注册！"),
     codeWrong("402", "短信验证码错误！"),
     passWrong("403", "密码错误！"),
-    userNotExist("404", "用户不存在！"),;
+    userNotExist("404", "用户不存在！"),
+    sendSmsFailed("405", "短信发送失败!");
+
 
     private String msg;
     private String code;
