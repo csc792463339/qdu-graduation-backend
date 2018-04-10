@@ -1,38 +1,55 @@
 package qdu.graduation.backend.entity;
 
-/**
- * Created by Jay on 2018/4/5.
- */
-public class Classes {
+import java.util.Date;
 
+public class Classes {
     private Integer classId;
 
     private String className;
 
-    private Integer classStudentaccount;
+    private Integer teacherId;
+
+    private String teacherName;
+
+    private Date createTime;
+
+    public Integer getClassId() {
+        return classId;
+    }
 
     public void setClassId(Integer classId) {
         this.classId = classId;
     }
 
-    public Integer getClassId() {
-        return this.classId;
+    public String getClassName() {
+        return className;
     }
 
     public void setClassName(String className) {
         this.className = className == null ? null : className.trim();
     }
 
-    public String getClassName() {
-        return this.className;
+    public Integer getTeacherId() {
+        return teacherId;
     }
 
-    public void setClassStudentaccount(Integer classStudentaccount) {
-        this.classStudentaccount = classStudentaccount;
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 
-    public Integer getClassStudentaccount() {
-        return this.classStudentaccount;
+    public String getTeacherName() {
+        return teacherName;
     }
 
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName == null ? null : teacherName.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

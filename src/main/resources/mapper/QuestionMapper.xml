@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qdu.graduation.backend.dao.QuestionDao">
+  <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.Question">
+    <id column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="question_type" jdbcType="VARCHAR" property="questionType" />
+    <result column="question_content" jdbcType="VARCHAR" property="questionContent" />
+    <result column="question_img" jdbcType="VARCHAR" property="questionImg" />
+    <result column="option_A" jdbcType="VARCHAR" property="optionA" />
+    <result column="option_B" jdbcType="VARCHAR" property="optionB" />
+    <result column="option_C" jdbcType="VARCHAR" property="optionC" />
+    <result column="option_D" jdbcType="VARCHAR" property="optionD" />
+    <result column="correct_option" jdbcType="VARCHAR" property="correctOption" />
+    <result column="question_score" jdbcType="INTEGER" property="questionScore" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    question_id, question_type, question_content, question_img, option_A, option_B, option_C, 
+    option_D, correct_option, question_score, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from question
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from question
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="qdu.graduation.backend.entity.Question">
+    insert into question (question_id, question_type, question_content, 
+      question_img, option_A, option_B, 
+      option_C, option_D, correct_option, 
+      question_score, create_time)
+    values (#{questionId,jdbcType=INTEGER}, #{questionType,jdbcType=VARCHAR}, #{questionContent,jdbcType=VARCHAR}, 
+      #{questionImg,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, #{optionB,jdbcType=VARCHAR}, 
+      #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, #{correctOption,jdbcType=VARCHAR}, 
+      #{questionScore,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.Question">
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questionId != null">
+        question_id,
+      </if>
+      <if test="questionType != null">
+        question_type,
+      </if>
+      <if test="questionContent != null">
+        question_content,
+      </if>
+      <if test="questionImg != null">
+        question_img,
+      </if>
+      <if test="optionA != null">
+        option_A,
+      </if>
+      <if test="optionB != null">
+        option_B,
+      </if>
+      <if test="optionC != null">
+        option_C,
+      </if>
+      <if test="optionD != null">
+        option_D,
+      </if>
+      <if test="correctOption != null">
+        correct_option,
+      </if>
+      <if test="questionScore != null">
+        question_score,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="questionId != null">
+        #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="questionType != null">
+        #{questionType,jdbcType=VARCHAR},
+      </if>
+      <if test="questionContent != null">
+        #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionImg != null">
+        #{questionImg,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null">
+        #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null">
+        #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null">
+        #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null">
+        #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="correctOption != null">
+        #{correctOption,jdbcType=VARCHAR},
+      </if>
+      <if test="questionScore != null">
+        #{questionScore,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="qdu.graduation.backend.entity.Question">
+    update question
+    <set>
+      <if test="questionType != null">
+        question_type = #{questionType,jdbcType=VARCHAR},
+      </if>
+      <if test="questionContent != null">
+        question_content = #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionImg != null">
+        question_img = #{questionImg,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null">
+        option_A = #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null">
+        option_B = #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null">
+        option_C = #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null">
+        option_D = #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="correctOption != null">
+        correct_option = #{correctOption,jdbcType=VARCHAR},
+      </if>
+      <if test="questionScore != null">
+        question_score = #{questionScore,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="qdu.graduation.backend.entity.Question">
+    update question
+    set question_type = #{questionType,jdbcType=VARCHAR},
+      question_content = #{questionContent,jdbcType=VARCHAR},
+      question_img = #{questionImg,jdbcType=VARCHAR},
+      option_A = #{optionA,jdbcType=VARCHAR},
+      option_B = #{optionB,jdbcType=VARCHAR},
+      option_C = #{optionC,jdbcType=VARCHAR},
+      option_D = #{optionD,jdbcType=VARCHAR},
+      correct_option = #{correctOption,jdbcType=VARCHAR},
+      question_score = #{questionScore,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </update>
+</mapper>

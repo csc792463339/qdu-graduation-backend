@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qdu.graduation.backend.dao.HomeworkClassDao">
+  <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.HomeworkClass">
+    <result column="homework_id" jdbcType="INTEGER" property="homeworkId" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="deadline" jdbcType="TIMESTAMP" property="deadline" />
+  </resultMap>
+  <insert id="insert" parameterType="qdu.graduation.backend.entity.HomeworkClass">
+    insert into homework_class (homework_id, class_id, deadline
+      )
+    values (#{homeworkId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{deadline,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.HomeworkClass">
+    insert into homework_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">
+        homework_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="deadline != null">
+        deadline,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="homeworkId != null">
+        #{homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
