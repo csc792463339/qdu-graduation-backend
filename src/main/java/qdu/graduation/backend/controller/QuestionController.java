@@ -3,14 +3,12 @@ package qdu.graduation.backend.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import qdu.graduation.backend.entity.Question;
 import qdu.graduation.backend.services.QuestionService;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Created by Jay on 2018/4/9.
@@ -47,4 +45,17 @@ public class QuestionController {
         return questionService.insertSelective(question);
     }
 
+    @RequestMapping(value = "/distribute", method = RequestMethod.POST)
+    @ResponseBody
+    public Object distribute(@PathVariable("questionIds") String questionIds) {
+        logger.info("分发习题");
+        logger.info("questionIds=" + questionIds);
+        String ids = questionIds.substring(0, questionIds.length() - 1);
+        String[] idArr = ids.split(",");
+        logger.info(ids);
+        for (String id : idArr) {
+            logger.info(id);
+        }
+        return null;
+    }
 }
