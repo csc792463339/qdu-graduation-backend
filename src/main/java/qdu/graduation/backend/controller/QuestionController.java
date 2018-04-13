@@ -47,7 +47,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/distribute", method = RequestMethod.POST)
     @ResponseBody
-    public Object distribute(@PathVariable("questionIds") String questionIds) {
+    public Object distribute(String questionIds) {
         logger.info("分发习题");
         logger.info("questionIds=" + questionIds);
         String ids = questionIds.substring(0, questionIds.length() - 1);
