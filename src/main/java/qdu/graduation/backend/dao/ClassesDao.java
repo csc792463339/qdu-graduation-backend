@@ -3,6 +3,8 @@ package qdu.graduation.backend.dao;
 import org.springframework.stereotype.Repository;
 import qdu.graduation.backend.entity.Classes;
 
+import java.util.List;
+
 @Repository
 public interface ClassesDao {
     int deleteByPrimaryKey(Integer classId);
@@ -16,4 +18,8 @@ public interface ClassesDao {
     int updateByPrimaryKeySelective(Classes record);
 
     int updateByPrimaryKey(Classes record);
+
+    List<Classes> selectAllClassesById(Integer teacherId);
+
+    void insertClassesByTeacherId(Classes classes);
 }

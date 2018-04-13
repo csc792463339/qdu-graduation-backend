@@ -37,6 +37,7 @@ public class LoginService {
             logger.info(user.getUserType() + ":" + phone + ":登录成功:" + StatusCode.success.toString());
             redisClient.hset(phone, "name", user.getUserName());
             redisClient.hset(phone, "type", user.getUserType());
+            redisClient.hset(phone, "id",user.getUserId().toString());
             redisClient.expire(phone, 86400);
 
             JSONObject res = JSON.parseObject(StatusCode.success.toString());

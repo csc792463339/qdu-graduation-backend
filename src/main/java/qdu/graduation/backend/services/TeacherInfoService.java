@@ -23,16 +23,16 @@ public class TeacherInfoService {
 
     public String getClassesInfo() {
         try {
-            Classes classes = classesDao.selectClassesByUserId(8);
+//            Classes classes = classesDao.selectClassesByUserId(8);
 
-            if (classes == null) {
-                return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "没有管理的班级" + "\"}";
-            }
+//            if (classes == null) {
+//                return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "没有管理的班级" + "\"}";
+//            }
 
             JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "有管理的班级" + "\"}");
-            res.put("claId", classes.getClassId());
-            res.put("claName", classes.getClassName());
-            res.put("claStudentaccount", classes.getClassStudentaccount());
+//            res.put("claId", classes.getClassId());
+//            res.put("claName", classes.getClassName());
+//            res.put("claStudentaccount", classes.getClassStudentaccount());
             return res.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());

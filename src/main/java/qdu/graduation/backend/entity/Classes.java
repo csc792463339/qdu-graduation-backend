@@ -52,4 +52,15 @@ public class Classes {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Classes{" +
+                "classId=" + classId +
+                ", className='" + className + '\'' +
+                ", teacherId=" + teacherId +
+                ", teacherName='" + teacherName + '\'' +
+                ", createTime=" + createTime +
+                '}';
+    }
 }
