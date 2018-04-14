@@ -49,19 +49,19 @@
         <!--</table>-->
 
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="class" domainObjectName="Classes"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="class" domainObjectName="Classes"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
 
-        <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="file" domainObjectName="File"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
+        <!--<table tableName="file" domainObjectName="File"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
         <table tableName="homework" domainObjectName="Homework"
@@ -70,33 +70,33 @@
                selectByExampleQueryId="false">
         </table>
 
-        <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="question" domainObjectName="Question"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
+        <!--<table tableName="question" domainObjectName="Question"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="homework_class" domainObjectName="HomeworkClass"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
+        <!--<table tableName="homework_class" domainObjectName="HomeworkClass"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="student_class" domainObjectName="StudentClass"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
+        <!--<table tableName="student_class" domainObjectName="StudentClass"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="student_homework" domainObjectName="StudentHomework"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
+        <!--<table tableName="student_homework" domainObjectName="StudentHomework"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
 
 

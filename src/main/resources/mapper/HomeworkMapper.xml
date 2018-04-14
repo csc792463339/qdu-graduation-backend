@@ -3,7 +3,7 @@
 <mapper namespace="qdu.graduation.backend.dao.HomeworkDao">
   <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.Homework">
     <id column="homework_id" jdbcType="INTEGER" property="homeworkId" />
-    <result column="questions_id" jdbcType="INTEGER" property="questionsId" />
+    <result column="questions_id" jdbcType="VARCHAR" property="questionsId" />
     <result column="full_score" jdbcType="INTEGER" property="fullScore" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
   </resultMap>
@@ -23,7 +23,7 @@
   <insert id="insert" parameterType="qdu.graduation.backend.entity.Homework">
     insert into homework (homework_id, questions_id, full_score, 
       create_time)
-    values (#{homeworkId,jdbcType=INTEGER}, #{questionsId,jdbcType=INTEGER}, #{fullScore,jdbcType=INTEGER}, 
+    values (#{homeworkId,jdbcType=INTEGER}, #{questionsId,jdbcType=VARCHAR}, #{fullScore,jdbcType=INTEGER}, 
       #{createTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.Homework">
@@ -47,7 +47,7 @@
         #{homeworkId,jdbcType=INTEGER},
       </if>
       <if test="questionsId != null">
-        #{questionsId,jdbcType=INTEGER},
+        #{questionsId,jdbcType=VARCHAR},
       </if>
       <if test="fullScore != null">
         #{fullScore,jdbcType=INTEGER},
@@ -61,7 +61,7 @@
     update homework
     <set>
       <if test="questionsId != null">
-        questions_id = #{questionsId,jdbcType=INTEGER},
+        questions_id = #{questionsId,jdbcType=VARCHAR},
       </if>
       <if test="fullScore != null">
         full_score = #{fullScore,jdbcType=INTEGER},
@@ -74,7 +74,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="qdu.graduation.backend.entity.Homework">
     update homework
-    set questions_id = #{questionsId,jdbcType=INTEGER},
+    set questions_id = #{questionsId,jdbcType=VARCHAR},
       full_score = #{fullScore,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=DATE}
     where homework_id = #{homeworkId,jdbcType=INTEGER}

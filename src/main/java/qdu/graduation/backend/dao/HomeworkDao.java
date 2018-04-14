@@ -1,9 +1,7 @@
 package qdu.graduation.backend.dao;
 
-import org.springframework.stereotype.Repository;
 import qdu.graduation.backend.entity.Homework;
 
-@Repository
 public interface HomeworkDao {
     int deleteByPrimaryKey(Integer homeworkId);
 
