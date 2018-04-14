@@ -10,7 +10,7 @@ public enum StatusCode {
 
     //错误-3XX
     error("300", "错误"),
-    hasSendSms("301", "短信验证码已发送，请等待！"),
+    hasSendSms("301", "短信验证码已发送，请等待60s！"),
     smsCodeInvalid("302", "短信验证码已失效，请重新发送！"),
 
     //失败-4XX

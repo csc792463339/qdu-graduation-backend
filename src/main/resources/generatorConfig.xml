@@ -64,11 +64,11 @@
         <!--</table>-->
 
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-        <table tableName="homework" domainObjectName="Homework"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="homework" domainObjectName="Homework"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
         <!--&lt;!&ndash; 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO &ndash;&gt;-->
         <!--<table tableName="question" domainObjectName="Question"-->
@@ -97,6 +97,12 @@
                <!--enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false">-->
         <!--</table>-->
+
+        <table tableName="board" domainObjectName="Board"
+        enableCountByExample="false" enableUpdateByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        selectByExampleQueryId="false">
+        </table>
 
 
 

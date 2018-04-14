@@ -12,7 +12,7 @@ public class Test {
     public String localhost = "http://localhost:8080/";
     public String server = "http://47.94.154.27:8080/";
     public String domain = "";
-    public int flag = 1;
+    public int flag = 0;
 
     @Before
     public void init() {
@@ -61,6 +61,30 @@ public class Test {
     public void login() throws IOException {
         String url = domain + "login/";
         String body = "phone=321&password=1234";
+        Response response = OkHttpUtil.post(url, null, body);
+        System.out.println(response.body().string());
+    }
+
+    @org.junit.Test
+    public void getClassBoard() throws IOException {
+        String url = domain + "classes/getBoard";
+        String body = "classId=1";
+        Response response = OkHttpUtil.post(url, null, body);
+        System.out.println(response.body().string());
+    }
+
+    @org.junit.Test
+    public void insertClassBoardMessage() throws IOException {
+        String url = domain + "classes/getBoard";
+        String body = "classId=1";
+        Response response = OkHttpUtil.post(url, null, body);
+        System.out.println(response.body().string());
+    }
+
+    @org.junit.Test
+    public void LikeBoardMessage() throws IOException {
+        String url = domain + "classes/likeBoardMessage";
+        String body = "messageId=1";
         Response response = OkHttpUtil.post(url, null, body);
         System.out.println(response.body().string());
     }
