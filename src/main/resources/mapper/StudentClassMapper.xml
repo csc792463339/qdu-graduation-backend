@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qdu.graduation.backend.dao.StudentClassDao">
-  <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.StudentClass">
-    <result column="class_id" jdbcType="INTEGER" property="classId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-  </resultMap>
-  <insert id="insert" parameterType="qdu.graduation.backend.entity.StudentClass">
+    <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.StudentClass">
+        <result column="class_id" jdbcType="INTEGER" property="classId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <insert id="insert" parameterType="qdu.graduation.backend.entity.StudentClass">
     insert into student_class (class_id, user_id)
     values (#{classId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.StudentClass">
-    insert into student_class
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="classId != null">
-        class_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="classId != null">
-        #{classId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.StudentClass">
+        insert into student_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classId != null">
+                class_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classId != null">
+                #{classId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 查看班级所有同学 -->
+    <select id="getAllStudentByClassID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from student_class WHERE class_id=#{class_id,jdbcType=INTEGER}
+    </select>
+
 </mapper>

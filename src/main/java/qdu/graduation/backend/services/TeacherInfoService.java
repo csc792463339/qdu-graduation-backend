@@ -8,7 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.ClassesDao;
+import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.entity.Classes;
+import qdu.graduation.backend.entity.User;
+
+import java.util.List;
 
 /**
  * Created by Jay on 2018/4/5.
@@ -20,6 +24,9 @@ public class TeacherInfoService {
 
     @Autowired
     private ClassesDao classesDao;
+
+    @Autowired
+    private UserDao userDao;
 
     public String getClassesInfo() {
         try {
@@ -38,5 +45,15 @@ public class TeacherInfoService {
             logger.error(e.getMessage());
             return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "没有管理的班级" + "\"}";
         }
+    }
+
+    //获取所有Theacher的信息和他的班级数量，将password设置成班级数量
+    public String getAllTecharAndClassInfo() {
+        List<User> teacherList = userDao.selectAllTeacher();
+        for (User user : teacherList) {
+            List<Classes> classesList = classesDao.selectAllClassesByTeacherId(user.getUserId());
+            user.setUserPassword(String.valueOf(classesList.size()));
+        }
+        return JSON.toJSONString(teacherList).replaceAll("userPassword","classCount");
     }
 }

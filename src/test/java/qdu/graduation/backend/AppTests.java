@@ -6,9 +6,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import qdu.graduation.backend.dao.StudentClassDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.dao.cache.RedisClient;
+import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
+import qdu.graduation.backend.services.ClassesService;
+import qdu.graduation.backend.services.StudentService;
+import qdu.graduation.backend.services.TeacherInfoService;
 
 import java.sql.Date;
 
@@ -21,6 +26,18 @@ public class AppTests {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    TeacherInfoService teacherInfoService;
+
+    @Autowired
+    StudentClassDao studentClassDao;
+
+    @Autowired
+    ClassesService classesService;
+
+    @Autowired
+    StudentService StudentService;
 
     @Test
     public void contextLoads() {
@@ -40,6 +57,15 @@ public class AppTests {
 //        User user=userDao.selectByPhone("15621009628","123456");
 
 //        System.out.println(JSON.toJSONString(user));
+
+//        System.out.println(JSON.toJSONString(userDao.selectAllTeacher()));
+
+//        System.out.println(teacherInfoService.getAllTecharAndClassInfo());
+
+        //       System.out.println(studentClassDao.getAllStudentByClassID(1));
+
+        //   System.out.println(classesService.getAllClassAndStudentCount());
+        System.out.println(StudentService.getAllStudent());
 
     }
 

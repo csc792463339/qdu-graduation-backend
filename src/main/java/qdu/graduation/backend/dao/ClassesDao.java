@@ -19,7 +19,10 @@ public interface ClassesDao {
 
     int updateByPrimaryKey(Classes record);
 
-    List<Classes> selectAllClassesById(Integer teacherId);
+    List<Classes> selectAllClassesByTeacherId(Integer teacherId);
 
     void insertClassesByTeacherId(Classes classes);
+
+    List<Classes> selectAllClasses();
+
 }

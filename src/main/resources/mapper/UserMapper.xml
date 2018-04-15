@@ -11,7 +11,10 @@
     </resultMap>
     <sql id="Base_Column_List">
     user_id, user_name, user_password, user_phone, user_type, create_time
-  </sql>
+    </sql>
+    <sql id="Base_student_List">
+        user_id, user_name,user_phone,create_time
+    </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -112,6 +115,20 @@
         select
         <include refid="Base_Column_List"/>
         from user where user_phone= #{phone}
+    </select>
+
+    <select id="selectAllStudent" resultMap="BaseResultMap">
+        select
+        <include refid="Base_student_List"/>
+        from user
+        where user_type = 'student'
+    </select>
+
+    <select id="selectAllTeacher" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_type = 'teacher'
     </select>
 
 

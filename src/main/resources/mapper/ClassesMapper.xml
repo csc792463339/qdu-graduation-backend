@@ -92,7 +92,7 @@
   </update>
 
     <!-- 查看该老师的所有班级 -->
-    <select id="selectAllClassesById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="selectAllClassesByTeacherId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from class where teacher_id = #{teacherId,jdbcType=INTEGER}
@@ -104,4 +104,12 @@
         values (#{className,jdbcType=VARCHAR}, #{teacherId,jdbcType=INTEGER},
         #{teacherName,jdbcType=VARCHAR}, NOW())
     </insert>
+
+    <!-- 查看所有班级 -->
+    <select id="selectAllClasses" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from class
+    </select>
+
 </mapper>
