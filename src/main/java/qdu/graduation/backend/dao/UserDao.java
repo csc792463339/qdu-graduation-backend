@@ -1,8 +1,11 @@
 package qdu.graduation.backend.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.http.server.reactive.AbstractListenerServerHttpResponse;
 import org.springframework.stereotype.Repository;
 import qdu.graduation.backend.entity.User;
+
+import java.util.List;
 
 @Repository
 public interface UserDao {
@@ -21,4 +24,8 @@ public interface UserDao {
     String existPhone(String phone);
 
     User selectByPhone(@Param("phone") String phone);
+
+    List<User> selectAllStudent();
+
+    List<User> selectAllTeacher();
 }

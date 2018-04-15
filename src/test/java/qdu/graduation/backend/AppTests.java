@@ -1,21 +1,22 @@
 package qdu.graduation.backend;
 
 import com.alibaba.fastjson.JSON;
-import net.bytebuddy.asm.Advice;
-import org.hibernate.validator.constraints.Range;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import qdu.graduation.backend.dao.BoardDao;
+import qdu.graduation.backend.dao.StudentClassDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.dao.cache.RedisClient;
-import qdu.graduation.backend.entity.Board;
+import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
+import qdu.graduation.backend.services.ClassesService;
+import qdu.graduation.backend.services.RegisterService;
+import qdu.graduation.backend.services.StudentService;
+import qdu.graduation.backend.services.TeacherInfoService;
 
 import java.sql.Date;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,21 +26,25 @@ public class AppTests {
     RedisClient redisClient;
 
     @Autowired
+    RegisterService registerService;
+
+    @Autowired
     UserDao userDao;
 
     @Autowired
-    BoardDao boardDao;
+    TeacherInfoService teacherInfoService;
+
+    @Autowired
+    StudentClassDao studentClassDao;
+
+    @Autowired
+    ClassesService classesService;
+
+    @Autowired
+    StudentService StudentService;
 
     @Test
     public void contextLoads() {
-        Board board = boardDao.selectByPrimaryKey(1);
-        System.out.println(board.getContent());
-
-
-        List<Board> list = boardDao.selectByClassId(1);
-        System.out.println(list);
-
-
 //        client.set("aaa", "bbb");
 //        System.out.println(client.get("hello"));
 //        User user = new User();
@@ -57,7 +62,16 @@ public class AppTests {
 
 //        System.out.println(JSON.toJSONString(user));
 
+//        System.out.println(JSON.toJSONString(userDao.selectAllTeacher()));
+
+//        System.out.println(teacherInfoService.getAllTecharAndClassInfo());
+
+        //       System.out.println(studentClassDao.getAllStudentByClassID(1));
+
+        //   System.out.println(classesService.getAllClassAndStudentCount());
+//        System.out.println(StudentService.getAllStudent());
+       // System.out.println(registerService.addTeacher("10086", "哟哟哟", "123"));
+        System.out.println(StudentService.getAllStudent());
     }
 
 }
-
