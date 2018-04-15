@@ -7,6 +7,8 @@ public enum StatusCode {
     success("200", "成功"),
     sendSms("201", "短信验证码已发送成功"),
     waitApproval("202", "提交成功,等待管理员审核"),
+    approval("203", "已通过"),
+    reject("204", "已拒绝"),
 
     //错误-3XX
     error("300", "错误"),

@@ -11,6 +11,8 @@ import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,7 +33,11 @@ public class TeacherApprovalService {
     public String getApprovalList() {
         try {
             Map<String, String> approvalList = redisClient.hgetall(APPROVAL);
-            return JSON.toJSONString(approvalList);
+            List<String> list = new ArrayList<>();
+            for (String key : approvalList.keySet()) {
+                list.add(approvalList.get(key));
+            }
+            return JSON.toJSONString(list);
         } catch (Exception e) {
             logger.error(e.getMessage());
             return StatusCode.failed.toString();
@@ -46,7 +52,7 @@ public class TeacherApprovalService {
             userDao.insert(user);
             sendSmsService.notice(phone, "教师审核", user.getUserName(), "已通过！");
             redisClient.hdel(APPROVAL, phone);
-            return StatusCode.success.toString();
+            return StatusCode.approval.toString();
         } catch (Exception e) {
             logger.error(e.getMessage());
             return StatusCode.failed.toString();
@@ -57,7 +63,7 @@ public class TeacherApprovalService {
         try {
             redisClient.hdel(APPROVAL, phone);
             sendSmsService.notice(phone, "教师审核", "", "未通过！");
-            return StatusCode.success.toString();
+            return StatusCode.reject.toString();
         } catch (Exception e) {
             logger.error(e.getMessage());
             return StatusCode.failed.toString();
