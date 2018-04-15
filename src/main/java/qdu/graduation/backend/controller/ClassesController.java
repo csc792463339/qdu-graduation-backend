@@ -49,9 +49,9 @@ public class ClassesController {
 
     @RequestMapping(value = "/insertBoardMessage", method = RequestMethod.POST)
     @ResponseBody
-    public Object insertBoardMessage(Board board) {
+    public Object insertBoardMessage(String classId, String content, String userName) {
         logger.info("插入留言板:");
-        return classesService.insertBoardMessage(board);
+        return classesService.insertBoardMessage(classId, content, userName);
     }
 
 
