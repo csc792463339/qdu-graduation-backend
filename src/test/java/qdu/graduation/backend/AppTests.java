@@ -12,6 +12,7 @@ import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.services.ClassesService;
+import qdu.graduation.backend.services.RegisterService;
 import qdu.graduation.backend.services.StudentService;
 import qdu.graduation.backend.services.TeacherInfoService;
 
@@ -23,6 +24,9 @@ public class AppTests {
 
     @Autowired
     RedisClient redisClient;
+
+    @Autowired
+    RegisterService registerService;
 
     @Autowired
     UserDao userDao;
@@ -65,8 +69,9 @@ public class AppTests {
         //       System.out.println(studentClassDao.getAllStudentByClassID(1));
 
         //   System.out.println(classesService.getAllClassAndStudentCount());
+//        System.out.println(StudentService.getAllStudent());
+       // System.out.println(registerService.addTeacher("10086", "哟哟哟", "123"));
         System.out.println(StudentService.getAllStudent());
-
     }
 
 }

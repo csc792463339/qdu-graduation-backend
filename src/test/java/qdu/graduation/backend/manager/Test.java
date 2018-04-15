@@ -47,5 +47,13 @@ public class Test {
         System.out.println(response.body().string());
     }
 
+    @org.junit.Test
+    public void tStudent() throws IOException {
+        String url = domain + "question/distribute";
+        String body = "questionIds=111321";
+        Response response = OkHttpUtil.post(url, null, body);
+        System.out.println(response.body().string());
+    }
+
 
 }

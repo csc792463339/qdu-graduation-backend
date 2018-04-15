@@ -34,4 +34,9 @@
         select * from student_class WHERE class_id=#{class_id,jdbcType=INTEGER}
     </select>
 
+    <!-- 查看同学所有班级 -->
+    <select id="getAllClassByStudentID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from student_class WHERE user_id=#{user_id,jdbcType=INTEGER}
+    </select>
+
 </mapper>

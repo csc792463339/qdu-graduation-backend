@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.services.ClassesService;
+import qdu.graduation.backend.services.StudentService;
 import qdu.graduation.backend.services.TeacherApprovalService;
 import qdu.graduation.backend.services.TeacherInfoService;
 
@@ -25,6 +26,9 @@ public class ManagerController {
 
     @Resource
     private TeacherInfoService teacherInfoService;
+
+    @Resource
+    private StudentService studentService;
 
     @Resource
     private ClassesService classesService;
@@ -71,7 +75,7 @@ public class ManagerController {
     @ResponseBody
     public Object StudentInfo() {
         logger.info("管理员-查看学生信息");
-        return "";
+        return studentService.getAllStudent();
     }
 
     @RequestMapping(value = "/homeWorkInfo", method = RequestMethod.GET)

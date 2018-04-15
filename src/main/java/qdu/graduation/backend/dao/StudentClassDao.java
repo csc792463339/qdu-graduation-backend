@@ -13,4 +13,7 @@ public interface StudentClassDao {
 
     List<StudentClass> getAllStudentByClassID(Integer classId);
 
+    List<StudentClass> getAllClassByStudentID(Integer userId);
+
+
 }
