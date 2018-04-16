@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -26,6 +27,29 @@ public class FileService {
         String paths = JSON.toJSONString(list);
         logger.info("图片存放地址:" + paths);
         return JSON.toJSONString(paths);
+    }
+
+    public String saveFile(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        String[] names = name.split("\\.");
+        String path = "d://" + name + System.currentTimeMillis();
+        if (names.length == 2) {
+            path = "d://" + names[0] + System.currentTimeMillis() + names[1];
+        }
+        File file1 = new File(path);
+        if (!file1.exists()) {
+            try {
+                file1.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(file1);
+                fileOutputStream.write(file.getBytes());
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+//        logger.info("图片存放地址:" + paths);
+        return path;
     }
 
     public void downloadFile(HttpServletResponse res, String name) {
