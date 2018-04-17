@@ -4,19 +4,36 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import qdu.graduation.backend.utils.RegexUtil;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static qdu.graduation.backend.utils.FileUtil.saveImg;
 
 @Service
 public class FileService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static String rootPath = "";
+
+    static {
+        String osName = System.getProperties().getProperty("os.name");
+        if (osName.contains("Windows") || osName.contains("windows")) {
+            rootPath = "D://file//";
+        } else {
+            rootPath = "/home/file/";
+        }
+        File file = new File(rootPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
+
 
     public String saveImage(String img) {
         List<String> list = new ArrayList<>();
@@ -31,13 +48,14 @@ public class FileService {
 
     public String saveFile(MultipartFile file) {
         String name = file.getOriginalFilename();
-        String[] names = name.split("\\.");
-        if (names.length == 2) {
-            name = names[0] + System.currentTimeMillis() + "." + names[1];
+        String type = RegexUtil.findOne(name, "(?<=\\.)\\w+$");
+        if (StringUtils.isEmpty(type)) {
+            name = name + System.currentTimeMillis();
         } else {
-            name = names[0] + System.currentTimeMillis();
+            name = name.replaceAll("." + type, "") + System.currentTimeMillis() + "." + type;
         }
-        String path = "d://" + name;
+
+        String path = rootPath + name;
         File file1 = new File(path);
         if (!file1.exists()) {
             try {
@@ -63,7 +81,7 @@ public class FileService {
         OutputStream os = null;
         try {
             os = res.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File("d://" + name)));
+            bis = new BufferedInputStream(new FileInputStream(new File(rootPath + name)));
             int i = bis.read(buff);
             while (i != -1) {
                 os.write(buff, 0, buff.length);
@@ -82,4 +100,32 @@ public class FileService {
             }
         }
     }
+
+
+    public static String saveImg(String imgStr) {
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            byte[] b = decoder.decodeBuffer(imgStr);
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            String name = System.currentTimeMillis() + ".png";
+            String path = rootPath + name;
+            OutputStream out = new FileOutputStream(path);
+            out.write(b);
+            out.flush();
+            out.close();
+            return name;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+
+    }
+
 }
