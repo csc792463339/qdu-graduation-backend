@@ -32,10 +32,12 @@ public class FileService {
     public String saveFile(MultipartFile file) {
         String name = file.getOriginalFilename();
         String[] names = name.split("\\.");
-        String path = "d://" + name + System.currentTimeMillis();
         if (names.length == 2) {
-            path = "d://" + names[0] + System.currentTimeMillis() + names[1];
+            name = names[0] + System.currentTimeMillis() + "." + names[1];
+        } else {
+            name = names[0] + System.currentTimeMillis();
         }
+        String path = "d://" + name;
         File file1 = new File(path);
         if (!file1.exists()) {
             try {
@@ -48,8 +50,8 @@ public class FileService {
                 e.printStackTrace();
             }
         }
-//        logger.info("图片存放地址:" + paths);
-        return path;
+        logger.info("文件存放地址:" + path);
+        return name;
     }
 
     public void downloadFile(HttpServletResponse res, String name) {

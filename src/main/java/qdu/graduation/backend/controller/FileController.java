@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import qdu.graduation.backend.services.FileService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 
 @Controller
@@ -41,8 +39,7 @@ public class FileController {
     public @ResponseBody
     String uploadImg(@RequestParam("file") MultipartFile file) {
         logger.info("保存文件");
-        fileService.saveFile(file);
-        return "uploadimg success";
+        return fileService.saveFile(file);
     }
 
 }
