@@ -5,6 +5,8 @@ import java.util.Date;
 public class Question {
     private Integer questionId;
 
+    private Integer teacherId;
+
     private String questionType;
 
     private String questionContent;
@@ -31,6 +33,14 @@ public class Question {
 
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getQuestionType() {
@@ -111,22 +121,5 @@ public class Question {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "questionId=" + questionId +
-                ", questionType='" + questionType + '\'' +
-                ", questionContent='" + questionContent + '\'' +
-                ", questionImg='" + questionImg + '\'' +
-                ", optionA='" + optionA + '\'' +
-                ", optionB='" + optionB + '\'' +
-                ", optionC='" + optionC + '\'' +
-                ", optionD='" + optionD + '\'' +
-                ", correctOption='" + correctOption + '\'' +
-                ", questionScore=" + questionScore +
-                ", createTime=" + createTime +
-                '}';
     }
 }

@@ -3,6 +3,7 @@
 <mapper namespace="qdu.graduation.backend.dao.QuestionDao">
     <resultMap id="BaseResultMap" type="qdu.graduation.backend.entity.Question">
         <id column="question_id" jdbcType="INTEGER" property="questionId"/>
+        <result column="teacher_id" jdbcType="INTEGER" property="teacherId"/>
         <result column="question_type" jdbcType="VARCHAR" property="questionType"/>
         <result column="question_content" jdbcType="VARCHAR" property="questionContent"/>
         <result column="question_img" jdbcType="VARCHAR" property="questionImg"/>
@@ -15,8 +16,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    question_id, question_type, question_content, question_img, option_A, option_B, option_C, 
-    option_D, correct_option, question_score, create_time
+    question_id, teacher_id, question_type, question_content, question_img, option_A, 
+    option_B, option_C, option_D, correct_option, question_score, create_time
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
@@ -29,20 +30,25 @@
     where question_id = #{questionId,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="qdu.graduation.backend.entity.Question">
-    insert into question (question_id, question_type, question_content, 
-      question_img, option_A, option_B, 
-      option_C, option_D, correct_option, 
-      question_score, create_time)
-    values (#{questionId,jdbcType=INTEGER}, #{questionType,jdbcType=VARCHAR}, #{questionContent,jdbcType=VARCHAR}, 
-      #{questionImg,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, #{optionB,jdbcType=VARCHAR}, 
-      #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, #{correctOption,jdbcType=VARCHAR}, 
-      #{questionScore,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+    insert into question (question_id, teacher_id, question_type, 
+      question_content, question_img, option_A, 
+      option_B, option_C, option_D, 
+      correct_option, question_score, create_time
+      )
+    values (#{questionId,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, #{questionType,jdbcType=VARCHAR}, 
+      #{questionContent,jdbcType=VARCHAR}, #{questionImg,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, 
+      #{optionB,jdbcType=VARCHAR}, #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, 
+      #{correctOption,jdbcType=VARCHAR}, #{questionScore,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
     <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.Question">
         insert into question
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="questionId != null">
                 question_id,
+            </if>
+            <if test="teacherId != null">
+                teacher_id,
             </if>
             <if test="questionType != null">
                 question_type,
@@ -79,6 +85,9 @@
             <if test="questionId != null">
                 #{questionId,jdbcType=INTEGER},
             </if>
+            <if test="teacherId != null">
+                #{teacherId,jdbcType=INTEGER},
+            </if>
             <if test="questionType != null">
                 #{questionType,jdbcType=VARCHAR},
             </if>
@@ -114,6 +123,9 @@
     <update id="updateByPrimaryKeySelective" parameterType="qdu.graduation.backend.entity.Question">
         update question
         <set>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId,jdbcType=INTEGER},
+            </if>
             <if test="questionType != null">
                 question_type = #{questionType,jdbcType=VARCHAR},
             </if>
@@ -149,7 +161,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="qdu.graduation.backend.entity.Question">
     update question
-    set question_type = #{questionType,jdbcType=VARCHAR},
+    set teacher_id = #{teacherId,jdbcType=INTEGER},
+      question_type = #{questionType,jdbcType=VARCHAR},
       question_content = #{questionContent,jdbcType=VARCHAR},
       question_img = #{questionImg,jdbcType=VARCHAR},
       option_A = #{optionA,jdbcType=VARCHAR},
@@ -161,12 +174,4 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
-
-    <!-- 获取所有问题 -->
-    <select id="selectAllQuestion" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from question
-    </select>
-
 </mapper>

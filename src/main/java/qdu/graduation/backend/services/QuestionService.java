@@ -26,7 +26,7 @@ public class QuestionService {
     public String getAllQuestion() {
         try {
             JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "获取题库" + "\"}");
-            res.put("questions", questionDao.selectAllQuestion());
+            //   res.put("questions", questionDao.selectAllQuestion());
             return res.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());
