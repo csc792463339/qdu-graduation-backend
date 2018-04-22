@@ -169,4 +169,8 @@
         from question
     </select>
 
+    <!-- 获取总分数 -->
+    <select id="selectSumScore" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select SUM(question_score) from question where question_id in (#{questionIds,jdbcType=VARCHAR})
+    </select>
 </mapper>

@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import qdu.graduation.backend.dao.HomeworkDao;
 import qdu.graduation.backend.dao.QuestionDao;
+import qdu.graduation.backend.entity.Homework;
 import qdu.graduation.backend.entity.Question;
+import qdu.graduation.backend.support.StatusCode;
 
 import java.util.Date;
 
@@ -25,35 +28,39 @@ public class QuestionService {
 
     public String getAllQuestion() {
         try {
-            JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "获取题库" + "\"}");
+            JSONObject res = JSON.parseObject(StatusCode.questionSuccess.toString());
             res.put("questions", questionDao.selectAllQuestion());
             return res.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "题库为空" + "\"}";
+            return StatusCode.questionFailed.toString();
         }
     }
 
     public String getQuestionById(Integer questionId) {
         try {
-            JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "获取题库" + "\"}");
+            JSONObject res = JSON.parseObject(StatusCode.questionSuccess.toString());
             res.put("question", questionDao.selectByPrimaryKey(questionId));
             return res.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "题库为空" + "\"}";
+            return StatusCode.questionFailed.toString();
         }
     }
 
     public String insertSelective(Question record) {
         try {
-            JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "插入习题成功" + "\"}");
+            JSONObject res = JSON.parseObject(StatusCode.questionInsertSuccess.toString());
             record.setCreateTime(new Date());
             questionDao.insertSelective(record);
             return res.toJSONString();
         } catch (Exception e) {
-            return "{\"code\":\"" + "1" + "\",\"msg\":\"" + "插入习题失败" + "\"}";
+            return StatusCode.questionInsertFailed.toString();
         }
+    }
+
+    public Integer getSumScore(String questionIds) {
+        return questionDao.selectSumScore(questionIds);
     }
 
 }

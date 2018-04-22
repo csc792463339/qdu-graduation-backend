@@ -20,4 +20,6 @@ public interface QuestionDao {
     int updateByPrimaryKey(Question record);
 
     List<Question> selectAllQuestion();
+
+    int selectSumScore(String questionIds);
 }
