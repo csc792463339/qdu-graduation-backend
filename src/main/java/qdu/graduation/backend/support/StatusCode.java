@@ -21,8 +21,17 @@ public enum StatusCode {
     codeWrong("402", "短信验证码错误！"),
     passWrong("403", "密码错误！"),
     userNotExist("404", "用户不存在！"),
-    sendSmsFailed("405", "短信发送失败!");
+    sendSmsFailed("405", "短信发送失败!"),
 
+    //题库
+    questionGetHomeWorkFailed("1107", "插入习题集失败"),
+    questionGetHomeWorkSuccess("1106", "获取习题集失败"),
+    questionInsertHomeWorkFailed("1105", "插入习题集失败"),
+    questionInsertHomeWorkSuccess("1104", "插入习题集成功"),
+    questionInsertFailed("1103", "插入题库失败"),
+    questionInsertSuccess("1102", "插入题库成功"),
+    questionSuccess("1100", "获取题库成功"),
+    questionFailed("1101", "题库为空");
 
     private String msg;
     private String code;

@@ -4,10 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import qdu.graduation.backend.entity.Homework;
 import qdu.graduation.backend.entity.Question;
+import qdu.graduation.backend.services.HomeworkService;
 import qdu.graduation.backend.services.QuestionService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -22,6 +25,9 @@ public class QuestionController {
 
     @Resource
     private QuestionService questionService;
+
+    @Resource
+    private HomeworkService homeworkService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
@@ -53,9 +59,10 @@ public class QuestionController {
         String ids = questionIds.substring(0, questionIds.length() - 1);
         String[] idArr = ids.split(",");
         logger.info(ids);
-        for (String id : idArr) {
-            logger.info(id);
-        }
-        return null;
+        Homework homework = new Homework();
+        homework.setCreateTime(new Date());
+        homework.setFullScore(questionService.getSumScore(ids));
+        homework.setQuestionsId(ids);
+        return homeworkService.insertHomework(homework);
     }
 }
