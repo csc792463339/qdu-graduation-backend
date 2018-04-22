@@ -61,7 +61,7 @@ public class QuestionController {
         logger.info(ids);
         Homework homework = new Homework();
         homework.setCreateTime(new Date());
-        homework.setFullScore(questionService.getSumScore(ids));
+//        homework.setFullScore(questionService.getSumScore(ids));
         homework.setQuestionsId(ids);
         return homeworkService.insertHomework(homework);
     }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.BoardDao;
 import qdu.graduation.backend.dao.ClassesDao;
 import qdu.graduation.backend.dao.StudentClassDao;
+import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.Board;
 import qdu.graduation.backend.entity.Classes;
 import qdu.graduation.backend.entity.StudentClass;
@@ -33,6 +34,10 @@ public class ClassesService {
 
     @Autowired
     private BoardDao boardDao;
+
+    @Autowired
+    private RedisClient redisClient;
+
 
     public String getClassesById(Integer teacherId) {
         JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "成功获取班级" + "\"}");
@@ -95,5 +100,16 @@ public class ClassesService {
         } else {
             return StatusCode.failed.toString();
         }
+    }
+
+    public String findClass(Integer classId) {
+        Classes classes = classesDao.selectByPrimaryKey(classId);
+        return JSON.toJSONString(classes);
+    }
+
+    public String joinClass(Integer classId, Integer studentId, String studentName) {
+        Classes classes = classesDao.selectByPrimaryKey(classId);
+        redisClient.hset("student:approval:" + classId, String.valueOf(studentId), studentName);
+        return StatusCode.success.toString();
     }
 }

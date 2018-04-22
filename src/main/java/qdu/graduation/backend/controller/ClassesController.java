@@ -62,4 +62,18 @@ public class ClassesController {
         return classesService.likeBoardMessage(messageId);
     }
 
+
+    @RequestMapping(value = "/findClass", method = RequestMethod.POST)
+    @ResponseBody
+    public Object findClassById(Integer classId) {
+        logger.info("搜索id为{}的班级", classId);
+        return classesService.findClass(classId);
+    }
+
+    @RequestMapping(value = "/joinClass", method = RequestMethod.POST)
+    @ResponseBody
+    public Object joinClass(Integer classId, Integer studentId, String studentName) {
+        logger.info("StudentID:{} StudentName:{} 申请加入ClassId为{}的班级", studentId, studentName, classId);
+        return classesService.joinClass(classId, studentId, studentName);
+    }
 }
