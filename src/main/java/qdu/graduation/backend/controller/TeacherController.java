@@ -32,9 +32,17 @@ public class TeacherController {
     }
 
     @RequestMapping(value = "/studentApprovalPass", method = RequestMethod.POST)
-    public Object studentPass(String phone) {
-        logger.info("通过" + phone + "同学的申请");
-        return null;
+    @ResponseBody
+    public Object studentPass(String classId, String studentId) {
+        logger.info("通过" + studentId + "同学" + classId + "班级的申请");
+        return studentApprovalService.studentPass(classId, studentId);
+    }
+
+    @RequestMapping(value = "/studentApprovalReject", method = RequestMethod.POST)
+    @ResponseBody
+    public Object studentReject(String classId, String studentId) {
+        logger.info("拒绝" + studentId + "同学" + classId + "班级的申请");
+        return studentApprovalService.studentReject(classId, studentId);
     }
 
 }
