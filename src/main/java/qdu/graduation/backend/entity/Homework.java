@@ -5,6 +5,10 @@ import java.util.Date;
 public class Homework {
     private Integer homeworkId;
 
+    private String homeworkName;
+
+    private Integer teacherId;
+
     private String questionsId;
 
     private Integer fullScore;
@@ -17,6 +21,22 @@ public class Homework {
 
     public void setHomeworkId(Integer homeworkId) {
         this.homeworkId = homeworkId;
+    }
+
+    public String getHomeworkName() {
+        return homeworkName;
+    }
+
+    public void setHomeworkName(String homeworkName) {
+        this.homeworkName = homeworkName == null ? null : homeworkName.trim();
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getQuestionsId() {

@@ -11,8 +11,6 @@ import qdu.graduation.backend.dao.HomeworkDao;
 import qdu.graduation.backend.entity.Homework;
 import qdu.graduation.backend.support.StatusCode;
 
-import java.util.Date;
-
 /**
  * Created by Jay on 2018/4/18.
  */
@@ -40,7 +38,7 @@ public class HomeworkService {
     public String selectAllHomework() {
         try {
             JSONObject res = JSON.parseObject(StatusCode.questionGetHomeWorkSuccess.toString());
-            res.put("allHomework", homeworkDao.selectAllHomework());
+            //    res.put("allHomework", homeworkDao.selectAllHomework());
             return res.toJSONString();
         } catch (Exception e) {
             return StatusCode.questionGetHomeWorkFailed.toString();
