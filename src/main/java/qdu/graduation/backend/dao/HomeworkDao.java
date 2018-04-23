@@ -2,6 +2,8 @@ package qdu.graduation.backend.dao;
 
 import qdu.graduation.backend.entity.Homework;
 
+import java.util.List;
+
 public interface HomeworkDao {
     int deleteByPrimaryKey(Integer homeworkId);
 
@@ -14,4 +16,6 @@ public interface HomeworkDao {
     int updateByPrimaryKeySelective(Homework record);
 
     int updateByPrimaryKey(Homework record);
+
+    List<Homework> selectByTeacherId(Integer teacherId);
 }

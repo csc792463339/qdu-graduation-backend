@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.services.HomeworkService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jay on 2018/4/18.
@@ -27,9 +29,9 @@ public class HomeworkController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public Object list() {
-        logger.info("获取题目集列表");
-        String res = homeworkService.selectAllHomework();
+    public Object list(String teacherId) {
+        logger.info("获取老师" + teacherId + "题目集列表");
+        String res = homeworkService.selectAllHomework(Integer.parseInt(teacherId));
         logger.info("获取题目集结果" + res);
         return res;
     }
@@ -39,5 +41,43 @@ public class HomeworkController {
     public Object detail(String homeworkId) {
         logger.info("获取" + homeworkId + "的详情");
         return homeworkService.selectByPrimaryKey(Integer.parseInt(homeworkId));
+    }
+
+    @RequestMapping(value = "/distribute", method = RequestMethod.POST)
+    @ResponseBody
+    public Object distribute(String questionid, String classlist) {
+        logger.info("分发：班级信息" + classlist);
+        logger.info("分发：习题信息" + questionid);
+        List<String> classesList = extractMessage(classlist);
+        List<String> questionsList = extractMessage(questionid);
+        homeworkService.distributeClass(questionsList.get(0), classesList);
+        return homeworkService.distribute(questionsList.get(0), classesList);
+    }
+
+    /**
+     * 提取中括号中内容，忽略中括号中的中括号
+     *
+     * @param msg
+     * @return
+     */
+    public List<String> extractMessage(String msg) {
+        List<String> list = new ArrayList<String>();
+        int start = 0;
+        int startFlag = 0;
+        int endFlag = 0;
+        for (int i = 0; i < msg.length(); i++) {
+            if (msg.charAt(i) == '【') {
+                startFlag++;
+                if (startFlag == endFlag + 1) {
+                    start = i;
+                }
+            } else if (msg.charAt(i) == '】') {
+                endFlag++;
+                if (endFlag == startFlag) {
+                    list.add(msg.substring(start + 1, i));
+                }
+            }
+        }
+        return list;
     }
 }
