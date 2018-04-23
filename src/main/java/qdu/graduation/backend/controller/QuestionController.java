@@ -53,15 +53,15 @@ public class QuestionController {
 
     @RequestMapping(value = "/distribute", method = RequestMethod.POST)
     @ResponseBody
-    public Object distribute(String questionIds) {
-        logger.info("分发习题");
+    public Object distribute(String questionIds, String questionListName) {
+        logger.info("创建习题集" + questionListName);
         logger.info("questionIds=" + questionIds);
         String ids = questionIds.substring(0, questionIds.length() - 1);
         String[] idArr = ids.split(",");
         logger.info(ids);
         Homework homework = new Homework();
         homework.setCreateTime(new Date());
-//        homework.setFullScore(questionService.getSumScore(ids));
+        homework.setFullScore(questionService.getSumScore(ids));
         homework.setQuestionsId(ids);
         return homeworkService.insertHomework(homework);
     }

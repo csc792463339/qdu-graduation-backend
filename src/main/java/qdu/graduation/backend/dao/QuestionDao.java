@@ -2,6 +2,8 @@ package qdu.graduation.backend.dao;
 
 import qdu.graduation.backend.entity.Question;
 
+import java.util.List;
+
 public interface QuestionDao {
     int deleteByPrimaryKey(Integer questionId);
 
@@ -14,4 +16,8 @@ public interface QuestionDao {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+
+    List<Question> selectAllQuestion();
+
+    Integer getSumScore(String ids);
 }

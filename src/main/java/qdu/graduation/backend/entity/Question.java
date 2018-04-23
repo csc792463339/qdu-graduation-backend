@@ -122,4 +122,22 @@ public class Question {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionId=" + questionId +
+                ", teacherId=" + teacherId +
+                ", questionType='" + questionType + '\'' +
+                ", questionContent='" + questionContent + '\'' +
+                ", questionImg='" + questionImg + '\'' +
+                ", optionA='" + optionA + '\'' +
+                ", optionB='" + optionB + '\'' +
+                ", optionC='" + optionC + '\'' +
+                ", optionD='" + optionD + '\'' +
+                ", correctOption='" + correctOption + '\'' +
+                ", questionScore=" + questionScore +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

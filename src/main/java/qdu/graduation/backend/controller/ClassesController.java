@@ -29,7 +29,7 @@ public class ClassesController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     public Object list(Integer teacherId) {
-        logger.info("获取该老师管理的所有班级" + teacherId);
+        logger.info("获取teacherId为" + teacherId + "老师管理的所有班级");
         return classesService.getClassesById(teacherId);
     }
 

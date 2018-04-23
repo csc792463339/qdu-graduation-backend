@@ -174,4 +174,13 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
+
+    <select id="selectAllQuestion" resultMap="BaseResultMap">
+        select * from question
+    </select>
+
+    <select id="getSumScore" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select sum(question_score) from question where question_id in (#{ids,jdbcType=VARCHAR})
+    </select>
+
 </mapper>
