@@ -29,7 +29,9 @@ public class HomeworkController {
     @ResponseBody
     public Object list() {
         logger.info("获取题目集列表");
-        return homeworkService.selectAllHomework();
+        String res = homeworkService.selectAllHomework();
+        logger.info("获取题目集结果" + res);
+        return res;
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
