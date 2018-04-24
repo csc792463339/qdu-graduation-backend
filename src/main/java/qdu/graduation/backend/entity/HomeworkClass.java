@@ -9,6 +9,8 @@ public class HomeworkClass {
 
     private Date deadline;
 
+    private Date createTime;
+
     public Integer getHomeworkId() {
         return homeworkId;
     }
@@ -31,5 +33,13 @@ public class HomeworkClass {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

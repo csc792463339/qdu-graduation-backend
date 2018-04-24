@@ -5,6 +5,7 @@
         <result column="homework_id" jdbcType="INTEGER" property="homeworkId"/>
         <result column="class_id" jdbcType="INTEGER" property="classId"/>
         <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
     </resultMap>
     <insert id="insert" parameterType="qdu.graduation.backend.entity.HomeworkClass">
     insert into homework_class (homework_id, class_id, deadline
