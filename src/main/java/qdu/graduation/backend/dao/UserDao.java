@@ -28,4 +28,5 @@ public interface UserDao {
     List<User> selectAllStudent();
 
     List<User> selectAllTeacher();
+
 }

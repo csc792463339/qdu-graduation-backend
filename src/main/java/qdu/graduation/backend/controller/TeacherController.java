@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.services.StudentApprovalService;
+import qdu.graduation.backend.services.TeacherInfoService;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,9 @@ public class TeacherController {
 
     @Resource
     private StudentApprovalService studentApprovalService;
+
+    @Resource
+    private TeacherInfoService teacherInfoService;
 
     @RequestMapping(value = "/studentApprovalList", method = RequestMethod.POST)
     @ResponseBody
@@ -45,4 +50,23 @@ public class TeacherController {
         return studentApprovalService.studentReject(classId, studentId);
     }
 
+    @RequestMapping(value = "/changeUserName", method = RequestMethod.POST)
+    @ResponseBody
+    public Object changeUserName(String userName, Integer userId) {
+        logger.info("改变" + userId + "昵称：" + userName);
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserName(userName);
+        return teacherInfoService.changeUser(user);
+    }
+
+    @RequestMapping(value = "/changeUserPass", method = RequestMethod.POST)
+    @ResponseBody
+    public Object changeUserPass(String pass, Integer userId) {
+        logger.info("修改" + userId + "的密码");
+        User user = new User();
+        user.setUserId(userId);
+        user.setUserPassword(pass);
+        return teacherInfoService.changeUser(user);
+    }
 }

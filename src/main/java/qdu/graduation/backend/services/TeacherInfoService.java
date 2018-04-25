@@ -11,6 +11,7 @@ import qdu.graduation.backend.dao.ClassesDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.entity.Classes;
 import qdu.graduation.backend.entity.User;
+import qdu.graduation.backend.support.StatusCode;
 
 import java.util.List;
 
@@ -54,6 +55,17 @@ public class TeacherInfoService {
             List<Classes> classesList = classesDao.selectAllClassesByTeacherId(user.getUserId());
             user.setUserPassword(String.valueOf(classesList.size()));
         }
-        return JSON.toJSONString(teacherList).replaceAll("userPassword","classCount");
+        return JSON.toJSONString(teacherList).replaceAll("userPassword", "classCount");
+    }
+
+    public String changeUser(User user) {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            userDao.updateByPrimaryKeySelective(user);
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
     }
 }
