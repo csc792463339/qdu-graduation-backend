@@ -24,6 +24,8 @@ public enum StatusCode {
     sendSmsFailed("405", "短信发送失败!"),
 
     //题库
+    homeworkDistributeFailed("1109", "发布题目失败"),
+    homeworkDistributeSuccess("1108", "发布题目成功"),
     questionGetHomeWorkFailed("1107", "获取习题集失败"),
     questionGetHomeWorkSuccess("1106", "获取习题集成功"),
     questionInsertHomeWorkFailed("1105", "插入习题集失败"),

@@ -175,8 +175,8 @@
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
 
-    <select id="selectAllQuestion" resultMap="BaseResultMap">
-        select * from question
+    <select id="selectAllQuestionByTeacherId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from question where teacher_id = #{teacherId,jdbcType=INTEGER}
     </select>
 
     <select id="getSumScore" parameterType="java.lang.String" resultType="java.lang.Integer">

@@ -31,9 +31,9 @@ public class QuestionController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public Object list() {
-        logger.info("获取题目列表");
-        return questionService.getAllQuestion();
+    public Object list(Integer teacherId) {
+        logger.info("获取" + teacherId + "老师创建的题目列表");
+        return questionService.getAllQuestion(teacherId);
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
@@ -53,7 +53,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/distribute", method = RequestMethod.POST)
     @ResponseBody
-    public Object distribute(String questionIds, String questionListName) {
+    public Object distribute(String questionIds, String questionListName, Integer teacherId) {
         logger.info("创建习题集" + questionListName);
         logger.info("questionIds=" + questionIds);
         String ids = questionIds.substring(0, questionIds.length() - 1);
@@ -61,6 +61,8 @@ public class QuestionController {
         logger.info(ids);
         Homework homework = new Homework();
         homework.setCreateTime(new Date());
+        homework.setHomeworkName(questionListName);
+        homework.setTeacherId(teacherId);
         homework.setFullScore(questionService.getSumScore(ids));
         homework.setQuestionsId(ids);
         return homeworkService.insertHomework(homework);

@@ -40,7 +40,7 @@ public class ClassesService {
 
 
     public String getClassesById(Integer teacherId) {
-        JSONObject res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "成功获取班级" + "\"}");
+        JSONObject res = JSON.parseObject(StatusCode.success.toString());
         res.put("classes", classesDao.selectAllClassesByTeacherId(teacherId));
         return res.toString();
     }
@@ -50,10 +50,10 @@ public class ClassesService {
         JSONObject res;
         try {
             classesDao.insertClassesByTeacherId(classes);
-            res = JSON.parseObject("{\"code\":\"" + "0" + "\",\"msg\":\"" + "成功插入班级" + "\"}");
+            res = JSON.parseObject(StatusCode.success.toString());
         } catch (Exception e) {
             logger.info(e.getMessage());
-            res = JSON.parseObject("{\"code\":\"" + "1" + "\",\"msg\":\"" + "插入班级失败" + "\"}");
+            res = JSON.parseObject(StatusCode.failed.toString());
         }
         return res.toString();
     }

@@ -24,10 +24,10 @@ public class QuestionService {
     @Autowired
     private QuestionDao questionDao;
 
-    public String getAllQuestion() {
+    public String getAllQuestion(Integer teacherId) {
         try {
             JSONObject res = JSON.parseObject(StatusCode.questionSuccess.toString());
-            res.put("questions", questionDao.selectAllQuestion());
+            res.put("questions", questionDao.selectAllQuestionByTeacherId(teacherId));
             return res.toJSONString();
         } catch (Exception e) {
             logger.error(e.getMessage());

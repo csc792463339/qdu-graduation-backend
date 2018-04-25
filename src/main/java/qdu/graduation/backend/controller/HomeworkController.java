@@ -9,9 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.services.HomeworkService;
+import qdu.graduation.backend.support.StatusCode;
 
 import javax.annotation.Resource;
+import java.beans.SimpleBeanInfo;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,13 +50,20 @@ public class HomeworkController {
 
     @RequestMapping(value = "/distribute", method = RequestMethod.POST)
     @ResponseBody
-    public Object distribute(String questionid, String classlist) {
+    public Object distribute(String questionid, String classlist, String deadline) {
         logger.info("分发：班级信息" + classlist);
         logger.info("分发：习题信息" + questionid);
+        logger.info("最晚时间：" + deadline);
+        Date d = new Date();
+        try {
+            d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(deadline);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+        }
         List<String> classesList = extractMessage(classlist);
         List<String> questionsList = extractMessage(questionid);
-        homeworkService.distributeClass(questionsList.get(0), classesList);
-        return homeworkService.distribute(questionsList.get(0), classesList);
+        homeworkService.distributeClass(questionsList.get(0), classesList, d);
+        return homeworkService.distribute(questionsList.get(0), classesList,d);
     }
 
     /**

@@ -72,14 +72,14 @@ public class HomeworkService {
         }
     }
 
-    public void distributeClass(String questionid, List<String> classlist) {
+    public void distributeClass(String questionid, List<String> classlist, Date deadline) {
         try {
             for (String classone :
                     classlist) {
                 HomeworkClass homeworkClass = new HomeworkClass();
                 homeworkClass.setClassId(Integer.parseInt(classone));
                 homeworkClass.setHomeworkId(Integer.parseInt(questionid));
-                homeworkClass.setDeadline(new Date());
+                homeworkClass.setDeadline(deadline);
                 homeworkClassDao.insert(homeworkClass);
             }
         } catch (Exception e) {
@@ -87,9 +87,9 @@ public class HomeworkService {
         }
     }
 
-    public String distribute(String questionid, List<String> classlist) {
+    public String distribute(String questionid, List<String> classlist, Date deadline) {
         try {
-            JSONObject res = JSON.parseObject(StatusCode.questionGetHomeWorkSuccess.toString());
+            JSONObject res = JSON.parseObject(StatusCode.homeworkDistributeSuccess.toString());
             logger.info("classlist" + classlist.toString());
             logger.info("questionid" + questionid);
             List<StudentClass> studentClasses = new ArrayList<StudentClass>();
@@ -110,18 +110,17 @@ public class HomeworkService {
             }
             logger.info("获取班级里的所有同学的id" + studentsIds);
             logger.info("习题集" + questionid);
-            String deadline = new Date().toString();
             for (int j = 0; j < studentsIds.size(); j++) {
                 String key = questionid;
                 String filed = studentsIds.get(j) + ":homework";
-                String value = deadline;
+                String value = deadline.toString();
                 logger.info("key=" + key + ";filed=" + filed + ";value=" + value);
                 redisClient.hset(filed, key, value);
             }
             return res.toJSONString();
         } catch (Exception e) {
             logger.info(e.toString());
-            return StatusCode.questionGetHomeWorkFailed.toString();
+            return StatusCode.homeworkDistributeFailed.toString();
         }
     }
 }

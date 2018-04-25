@@ -17,7 +17,7 @@ public interface QuestionDao {
 
     int updateByPrimaryKey(Question record);
 
-    List<Question> selectAllQuestion();
+    List<Question> selectAllQuestionByTeacherId(Integer teacherId);
 
     Integer getSumScore(String ids);
 }
