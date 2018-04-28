@@ -1,9 +1,11 @@
 package qdu.graduation.backend.dao;
 
+import org.springframework.stereotype.Repository;
 import qdu.graduation.backend.entity.Question;
 
 import java.util.List;
 
+@Repository
 public interface QuestionDao {
     int deleteByPrimaryKey(Integer questionId);
 

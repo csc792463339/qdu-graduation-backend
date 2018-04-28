@@ -27,4 +27,12 @@ public class StudentController {
         logger.info("学生-" + studentId + "查看未完成的作业");
         return studentService.notDoneHomework(studentId);
     }
+
+    @RequestMapping(value = "/getQuestions", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getQuestions(Integer homeworkId) {
+        logger.info("查看作业题目-{}", homeworkId);
+        return studentService.getQuestions(homeworkId);
+    }
+
 }

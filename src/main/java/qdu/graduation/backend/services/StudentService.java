@@ -6,10 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.HomeworkDao;
+import qdu.graduation.backend.dao.QuestionDao;
 import qdu.graduation.backend.dao.StudentClassDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.Homework;
+import qdu.graduation.backend.entity.Question;
 import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
 
@@ -35,6 +37,9 @@ public class StudentService {
     @Autowired
     private RedisClient redisClient;
 
+    @Autowired
+    private QuestionDao questionDao;
+
     public String getAllStudent() {
         logger.info("获取所有学生");
         List<User> studentList = userDao.selectAllStudent();
@@ -49,18 +54,30 @@ public class StudentService {
     public String notDoneHomework(Integer studentId) {
         String key = studentId + ":homework";
         Map<String, String> workMap = redisClient.hgetall(key);
-        List<Map<String, String>> resultList = new ArrayList<>();
+        List<Map<String, Object>> resultList = new ArrayList<>();
         for (String homeworkId : workMap.keySet()) {
-            Map<String, String> resMap = new HashMap<>();
+            Map<String, Object> resMap = new HashMap<>();
             Homework homework = homeworkDao.selectByPrimaryKey(Integer.parseInt(homeworkId));
             User user = userDao.selectByPrimaryKey(homework.getTeacherId());
             resMap.put("homwworkId", homeworkId);
             resMap.put("homeworkName", homework.getHomeworkName());
             resMap.put("teacherName", user.getUserName());
-            resMap.put("publishTime", String.valueOf(homework.getCreateTime().getTime()));
+            resMap.put("publishTime", homework.getCreateTime().getTime());
             resMap.put("deadLine", workMap.get(homeworkId));
             resultList.add(resMap);
         }
         return JSON.toJSONString(resultList);
+    }
+
+    public String getQuestions(Integer homeworkId) {
+        Homework homework = homeworkDao.selectByPrimaryKey(homeworkId);
+        String[] question = homework.getQuestionsId().split(",");
+        List<Question> questions = new ArrayList<>();
+        for (String qid : question) {
+            Question que = questionDao.selectByPrimaryKey(Integer.parseInt(qid));
+            que.setCorrectOption("");
+            questions.add(que);
+        }
+        return JSON.toJSONString(questions);
     }
 }
