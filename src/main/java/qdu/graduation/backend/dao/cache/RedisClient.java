@@ -120,6 +120,13 @@ public class RedisClient {
         return value;
     }
 
+    public long incr(String key) {
+        Jedis jedis = redisPool.getJedis();
+        long res = jedis.incr(key);
+        redisPool.returnResource(jedis);
+        return res;
+    }
+
     /**
      * 通过正则匹配keys
      *

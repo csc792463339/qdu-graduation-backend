@@ -35,4 +35,26 @@ public class StudentController {
         return studentService.getQuestions(homeworkId);
     }
 
+    @RequestMapping(value = "/getDoneAnswer", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getDoneAnswer(Integer studentId, Integer homeworkId) {
+        logger.info("学生ID:{},查询 QuestionID:{} 已提交答案", homeworkId);
+        return studentService.getDoneAnswer(studentId, homeworkId);
+    }
+
+
+    @RequestMapping(value = "/submitOneAnswer", method = RequestMethod.POST)
+    @ResponseBody
+    public Object submitOneAnswer(Integer studentId, Integer homeworkId, String questionId, String type, String answer) {
+        logger.info("学生ID:{},提交答案，HomeWorkId:{},QuestionID:{},Anser:{}", studentId, homeworkId, questionId, answer);
+        return studentService.submitAnswer(studentId, homeworkId, questionId, type, answer);
+    }
+
+    @RequestMapping(value = "/submitAllAnswer", method = RequestMethod.POST)
+    @ResponseBody
+    public Object submitAllAnswer(Integer studentId, Integer homeworkId) {
+        logger.info("学生ID:{},已完成作业，HomeWorkId:{}", studentId, homeworkId);
+        return studentService.submitAllAnswer(studentId, homeworkId);
+    }
+
 }

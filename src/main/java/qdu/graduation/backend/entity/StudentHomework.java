@@ -9,9 +9,11 @@ public class StudentHomework {
 
     private String studentAnswer;
 
+    private Integer submitRank;
+
     private Integer score;
 
-    private Date subtimeTime;
+    private Date correctTime;
 
     public Integer getHomeworkId() {
         return homeworkId;
@@ -37,6 +39,14 @@ public class StudentHomework {
         this.studentAnswer = studentAnswer == null ? null : studentAnswer.trim();
     }
 
+    public Integer getSubmitRank() {
+        return submitRank;
+    }
+
+    public void setSubmitRank(Integer submitRank) {
+        this.submitRank = submitRank;
+    }
+
     public Integer getScore() {
         return score;
     }
@@ -45,11 +55,11 @@ public class StudentHomework {
         this.score = score;
     }
 
-    public Date getSubtimeTime() {
-        return subtimeTime;
+    public Date getCorrectTime() {
+        return correctTime;
     }
 
-    public void setSubtimeTime(Date subtimeTime) {
-        this.subtimeTime = subtimeTime;
+    public void setCorrectTime(Date correctTime) {
+        this.correctTime = correctTime;
     }
 }

@@ -5,14 +5,17 @@
     <result column="homework_id" jdbcType="INTEGER" property="homeworkId" />
     <result column="student_id" jdbcType="INTEGER" property="studentId" />
     <result column="student_answer" jdbcType="VARCHAR" property="studentAnswer" />
+    <result column="submit_rank" jdbcType="INTEGER" property="submitRank" />
     <result column="score" jdbcType="INTEGER" property="score" />
-    <result column="subtime_time" jdbcType="TIMESTAMP" property="subtimeTime" />
+    <result column="correct_time" jdbcType="TIMESTAMP" property="correctTime" />
   </resultMap>
   <insert id="insert" parameterType="qdu.graduation.backend.entity.StudentHomework">
     insert into student_homework (homework_id, student_id, student_answer, 
-      score, subtime_time)
+      submit_rank, score, correct_time
+      )
     values (#{homeworkId,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{studentAnswer,jdbcType=VARCHAR}, 
-      #{score,jdbcType=INTEGER}, #{subtimeTime,jdbcType=TIMESTAMP})
+      #{submitRank,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, #{correctTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="qdu.graduation.backend.entity.StudentHomework">
     insert into student_homework
@@ -26,11 +29,14 @@
       <if test="studentAnswer != null">
         student_answer,
       </if>
+      <if test="submitRank != null">
+        submit_rank,
+      </if>
       <if test="score != null">
         score,
       </if>
-      <if test="subtimeTime != null">
-        subtime_time,
+      <if test="correctTime != null">
+        correct_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -43,11 +49,14 @@
       <if test="studentAnswer != null">
         #{studentAnswer,jdbcType=VARCHAR},
       </if>
+      <if test="submitRank != null">
+        #{submitRank,jdbcType=INTEGER},
+      </if>
       <if test="score != null">
         #{score,jdbcType=INTEGER},
       </if>
-      <if test="subtimeTime != null">
-        #{subtimeTime,jdbcType=TIMESTAMP},
+      <if test="correctTime != null">
+        #{correctTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
