@@ -2,19 +2,19 @@ package qdu.graduation.backend.services;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qdu.graduation.backend.dao.ClassesDao;
-import qdu.graduation.backend.dao.HomeworkClassDao;
-import qdu.graduation.backend.dao.HomeworkDao;
-import qdu.graduation.backend.dao.StudentClassDao;
+import qdu.graduation.backend.dao.*;
 import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.Homework;
 import qdu.graduation.backend.entity.HomeworkClass;
 import qdu.graduation.backend.entity.StudentClass;
+import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
+import qdu.graduation.backend.utils.OkHttpUtil;
 
 import java.util.*;
 
@@ -40,6 +40,11 @@ public class HomeworkService {
 
     @Autowired
     private HomeworkClassDao homeworkClassDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    private SendSmsService sendSmsService;
 
     public String insertHomework(Homework homework) {
         try {
@@ -115,6 +120,8 @@ public class HomeworkService {
                 String filed = studentsIds.get(j) + ":homework";
                 String value = deadline.toString();
                 logger.info("key=" + key + ";filed=" + filed + ";value=" + value);
+                User user = userDao.selectByPrimaryKey(Integer.parseInt(studentsIds.get(j)));
+                sendSmsService.notice(user.getUserPhone(), "接受新作业", "习题号" + questionid, "最后提交时间：" + deadline);
                 redisClient.hset(filed, key, value);
             }
             return res.toJSONString();
