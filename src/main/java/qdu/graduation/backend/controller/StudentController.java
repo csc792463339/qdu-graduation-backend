@@ -46,8 +46,15 @@ public class StudentController {
     @RequestMapping(value = "/submitOneAnswer", method = RequestMethod.POST)
     @ResponseBody
     public Object submitOneAnswer(Integer studentId, Integer homeworkId, String questionId, String type, String answer) {
-        logger.info("学生ID:{},提交答案，HomeWorkId:{},QuestionID:{},Anser:{}", studentId, homeworkId, questionId, answer);
+        logger.info("学生ID:{},提交答案，HomeWorkId:{},QuestionID:{},Answer:{}", studentId, homeworkId, questionId, answer);
         return studentService.submitAnswer(studentId, homeworkId, questionId, type, answer);
+    }
+
+    @RequestMapping(value = "/getOneAnswer", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getOneAnswer(Integer studentId, Integer homeworkId, String questionId, String type) {
+        logger.info("学生ID:{},查看答案，HomeWorkId:{},QuestionID:{},Answer:{}", studentId, homeworkId);
+        return studentService.getOneAnswer(studentId, homeworkId, questionId, type);
     }
 
     @RequestMapping(value = "/submitAllAnswer", method = RequestMethod.POST)

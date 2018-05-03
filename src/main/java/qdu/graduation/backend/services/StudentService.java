@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qdu.graduation.backend.dao.HomeworkDao;
-import qdu.graduation.backend.dao.QuestionDao;
-import qdu.graduation.backend.dao.StudentClassDao;
-import qdu.graduation.backend.dao.UserDao;
+import qdu.graduation.backend.dao.*;
 import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.*;
 
@@ -34,6 +31,9 @@ public class StudentService {
 
     @Autowired
     private QuestionDao questionDao;
+
+    @Autowired
+    private StudentHomeworkDao studentHomeworkDao;
 
     public String getAllStudent() {
         logger.info("获取所有学生");
@@ -90,6 +90,16 @@ public class StudentService {
         return "";
     }
 
+    public String getOneAnswer(Integer studentId, Integer homeworkId, String questionId, String type) {
+        if (type.equals("sel")) {
+            String key = studentId + ":" + homeworkId + ":sel";
+            return redisClient.hget(key, questionId);
+        } else {
+            String key = studentId + ":" + homeworkId + ":per";
+            return redisClient.hget(key, questionId);
+        }
+    }
+
     public String getDoneAnswer(Integer studentId, Integer homeworkId) {
         String key = studentId + ":" + homeworkId + ":sel";
         Map<String, String> answer = redisClient.hgetall(key);
@@ -101,21 +111,23 @@ public class StudentService {
     public String submitAllAnswer(Integer studentId, Integer homeworkId) {
         String key = studentId + ":" + homeworkId + ":per";
         Map<String, String> perAnswer = redisClient.hgetall(key);
-        if (perAnswer.isEmpty()) {
+        long rank = redisClient.incr(homeworkId + ":countSubmit");
+        redisClient.hset(studentId + ":" + homeworkId + ":rank", "rank", rank + "");
+        if (!perAnswer.isEmpty()) {
             String queueId = homeworkId + ":perAnswer";
             for (String questionId : perAnswer.keySet()) {
+                logger.info("学生 studentId:{} 的作业 homewordId:{} 有主观题还未批改", studentId, homeworkId);
                 redisClient.hset(queueId, questionId, studentId + "###" + perAnswer.get(questionId));
             }
         } else {
             calcHomeworkScore(studentId, homeworkId);
         }
-        long rank = redisClient.incr(homeworkId + ":countSubmit");
-        redisClient.set(studentId + ":" + homeworkId + ":rank", rank + "");
         return rank + "";
     }
 
-
-    //老师批改完 ：key = studentId + ":" + homeworkId + ":correct" felid：quetionID value:score
+    //取客观题队列:  队列名：homeworkId:perAnswer   取出来 key：questionID value：(studentId###answer)
+    //老师批改完 将分数插入redis。 key = studentId + ":" + homeworkId + ":correct"   field：questionID   value:score
+    //插入完 调一下 StudentService的calcHomeworkScore(studentId,homeworkId) 去算分
     public String calcHomeworkScore(Integer studentId, Integer homeworkId) {
         String key = studentId + ":" + homeworkId + ":per";
         Map<String, String> perAnswer = redisClient.hgetall(key);
@@ -127,7 +139,7 @@ public class StudentService {
             key = studentId + ":" + homeworkId + ":correct";
             Map<String, String> correctRes = redisClient.hgetall(key);
             if (perAnswer.size() != correctRes.size()) {
-                logger.info("学生 studentId:{} 的作业 homewordId:{} 有主观题还未批改");
+                logger.info("学生 studentId:{} 的作业 homewordId:{} 有主观题还未批改", studentId, homeworkId);
                 return "";
             } else {
                 for (String questionId : correctRes.keySet()) {
@@ -171,8 +183,9 @@ public class StudentService {
         studentHomework.setStudentAnswer(JSON.toJSONString(resList));
         studentHomework.setScore(Integer.parseInt(df.format(score)));
         studentHomework.setCorrectTime(new Date());
-        studentHomework.setSubmitRank(Integer.parseInt(studentId + ":" + homeworkId + ":rank"));
-
+        String rank = redisClient.hget(studentId + ":" + homeworkId + ":rank", "rank");
+        studentHomework.setSubmitRank(Integer.parseInt(rank));
+        studentHomeworkDao.insert(studentHomework);
         logger.info("StudentId:{},HomeworkId:{}，批改完成,得分:{}", studentId, homeworkId, score);
         return "";
     }
