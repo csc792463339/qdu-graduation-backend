@@ -26,7 +26,7 @@ public class CrawlerNews {
     @Autowired
     private NewsDao newsDao;
 
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 6 14 * * ?")
     public void crawler() {
         logger.info("开始爬取");
         String indexUrl = "http://jw.qdu.edu.cn/homepage/index.do";

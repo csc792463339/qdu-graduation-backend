@@ -3,11 +3,13 @@ package qdu.graduation.backend.services;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.xml.internal.ws.api.message.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.ClassesDao;
+import qdu.graduation.backend.dao.NewsDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.entity.Classes;
 import qdu.graduation.backend.entity.User;
@@ -28,6 +30,9 @@ public class TeacherInfoService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private NewsDao newsDao;
 
     public String getClassesInfo() {
         try {
@@ -62,6 +67,28 @@ public class TeacherInfoService {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             userDao.updateByPrimaryKeySelective(user);
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
+    }
+
+    public String getNews() {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            res.put("news", newsDao.latestNew());
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
+    }
+
+    public String getNewsById(Integer newsId) {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            res.put("news", newsDao.selectByPrimaryKey(newsId));
             return res.toJSONString();
         } catch (Exception e) {
             logger.info(e.getMessage());

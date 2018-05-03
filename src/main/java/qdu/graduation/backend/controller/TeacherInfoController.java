@@ -29,4 +29,19 @@ public class TeacherInfoController {
         logger.info("用户-" + userid + "获取班级");
         return teacherInfoService.getClassesInfo();
     }
+
+    @RequestMapping(value = "/getNews", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getNews() {
+        logger.info("获取前十条新闻");
+        return teacherInfoService.getNews();
+    }
+
+    @RequestMapping(value = "/getNewsById", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getNewsById(Integer newsId) {
+        logger.info("获取新闻的详情" + newsId);
+        return teacherInfoService.getNewsById(newsId);
+    }
+
 }
