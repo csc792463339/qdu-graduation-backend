@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.dao.ClassesDao;
+import qdu.graduation.backend.dao.QuestionDao;
 import qdu.graduation.backend.dao.StudentClassDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.Classes;
+import qdu.graduation.backend.entity.Question;
 import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
@@ -29,6 +31,8 @@ public class StudentApprovalService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String APPROVAL = "student:approval:";
+    private final String PERANSWER = ":perAnswer";//客观题队列
+    private final String CORRECT = ":correct";//批改客观题
 
     @Autowired
     private RedisClient redisClient;
@@ -38,6 +42,9 @@ public class StudentApprovalService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     @Autowired
     private StudentClassDao studentClassDao;
@@ -98,4 +105,51 @@ public class StudentApprovalService {
         return StatusCode.reject.toString();
     }
 
+    public String getPerAnswer(Integer homeworkId) {
+        try {
+            String homeworkAnswer = homeworkId + PERANSWER;
+            Map<String, String> answerList = redisClient.hgetall(homeworkAnswer);
+            List<String> perRecord = new ArrayList<String>();
+            for (String h : answerList.keySet()
+                    ) {
+                logger.info("key:" + h + " value:" + answerList.get(h));
+                perRecord.add(h + "###" + answerList.get(h));
+            }
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            String now = perRecord.get(0);
+            logger.info(now);
+            String[] nowArr = now.split("###");
+            String questionId = nowArr[0];
+            String studentId = nowArr[1];
+            String answer = nowArr[2];
+            Question question = questionDao.selectByPrimaryKey(Integer.parseInt(questionId));
+            User user = userDao.selectByPrimaryKey(Integer.parseInt(studentId));
+            res.put("homeworkId", homeworkId);
+            res.put("questionId", question.getQuestionId());
+            res.put("userName", user.getUserName());
+            res.put("questionContent", question.getQuestionContent());
+            res.put("questionImg", question.getQuestionImg());
+            res.put("questionScore", question.getQuestionScore());
+            res.put("questionAnswer", answer);
+            res.put("studentId", studentId);
+            res.put("homeworkId", homeworkId);
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return StatusCode.error.toString();
+        }
+    }
+
+    public String insertAnswerScore(String studentId, String homeworkId, String questionId, String score) {
+        try {
+            String key = studentId + ":" + homeworkId + CORRECT;
+            String field = questionId;
+            String value = score;
+            redisClient.hset(key, field, value);
+            return StatusCode.success.toString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return StatusCode.error.toString();
+        }
+    }
 }

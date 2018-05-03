@@ -74,7 +74,7 @@ public class TeacherInfoService {
         }
     }
 
-    public String getNews() {
+        public String getNews() {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             res.put("news", newsDao.latestNew());
@@ -85,7 +85,7 @@ public class TeacherInfoService {
         }
     }
 
-    public String getNewsById(Integer newsId) {
+    public String getNewsById(Integer newsId){
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             res.put("news", newsDao.selectByPrimaryKey(newsId));

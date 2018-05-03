@@ -69,4 +69,21 @@ public class TeacherController {
         user.setUserPassword(pass);
         return teacherInfoService.changeUser(user);
     }
+
+    @RequestMapping(value = "/getObject", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getObject(String homeworkId) {
+        logger.info("获取客观题答案" + homeworkId);
+        return studentApprovalService.getPerAnswer(9);
+    }
+
+    @RequestMapping(value = "/giveScore", method = RequestMethod.POST)
+    @ResponseBody
+    public Object giveScore(String studentId, String homeworkId, String questionId, String score) {
+        logger.info("批改客观题-studentId:" + studentId);
+        logger.info("批改客观题-homeworkId:" + homeworkId);
+        logger.info("批改客观题-questionId:" + questionId);
+        logger.info("批改客观题-score:" + score);
+        return studentApprovalService.insertAnswerScore(studentId, homeworkId, questionId, score);
+    }
 }
