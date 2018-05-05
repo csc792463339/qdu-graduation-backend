@@ -1,6 +1,8 @@
 package qdu.graduation.backend.services;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,5 +190,31 @@ public class StudentService {
         studentHomeworkDao.insert(studentHomework);
         logger.info("StudentId:{},HomeworkId:{}，批改完成,得分:{}", studentId, homeworkId, score);
         return "";
+    }
+
+
+    public String getAllSubmit(Integer studentId) {
+        List<StudentHomework> list = studentHomeworkDao.queryAllHomeworkByStudentId(studentId);
+        for (StudentHomework studentHomework : list) {
+            redisClient.hset(String.valueOf(studentId), "homework:" + studentHomework.getHomeworkId(), studentHomework.getStudentAnswer());
+            studentHomework.setStudentAnswer(homeworkDao.selectByPrimaryKey(studentHomework.getHomeworkId()).getHomeworkName());
+        }
+        return JSON.toJSONString(list);
+    }
+
+    public String getOneSubmitHomework(Integer studentId, Integer homeWorkId) {
+        JSONArray array = JSON.parseArray(redisClient.hget(String.valueOf(studentId), "homework:" + homeWorkId));
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject object = array.getJSONObject(0);
+            int questionId = Integer.parseInt(object.getString("questionId"));
+            Question question = questionDao.selectByPrimaryKey(questionId);
+            object.put("questionContent", question.getQuestionContent());
+            object.put("questionType", question.getQuestionType());
+            object.put("optionA", question.getOptionA());
+            object.put("optionB", question.getOptionB());
+            object.put("optionC", question.getOptionC());
+            object.put("optionD", question.getOptionD());
+        }
+        return array.toJSONString();
     }
 }

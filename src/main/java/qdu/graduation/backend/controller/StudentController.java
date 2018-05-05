@@ -64,4 +64,19 @@ public class StudentController {
         return studentService.submitAllAnswer(studentId, homeworkId);
     }
 
+    @RequestMapping(value = "/getAllSubmit", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getAllSubmit(Integer studentId) {
+        logger.info("学生ID:{},查看全部提交历史", studentId);
+        return studentService.getAllSubmit(studentId);
+    }
+
+    @RequestMapping(value = "/getOneSubmit", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getAllSubmit(Integer studentId, Integer homeworkId) {
+        logger.info("学生ID:{},查看 作业ID：{}提交情况", studentId, homeworkId);
+        return studentService.getOneSubmitHomework(studentId, homeworkId);
+    }
+
+
 }
