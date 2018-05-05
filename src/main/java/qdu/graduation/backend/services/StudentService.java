@@ -35,6 +35,9 @@ public class StudentService {
     private QuestionDao questionDao;
 
     @Autowired
+    private ClassesDao classesDao;
+
+    @Autowired
     private StudentHomeworkDao studentHomeworkDao;
 
     public String getAllStudent() {
@@ -216,5 +219,17 @@ public class StudentService {
             object.put("optionD", question.getOptionD());
         }
         return array.toJSONString();
+    }
+
+    public String getClassInfo(Integer studentId) {
+        List<StudentClass> list = studentClassDao.getAllClassByStudentID(studentId);
+        List<Map<String, String>> result = new ArrayList<>();
+        for (StudentClass studentClass : list) {
+            Map<String, String> map = new HashMap<>();
+            map.put("classId", studentClass.getClassId().toString());
+            map.put("className", classesDao.selectByPrimaryKey(studentClass.getClassId()).getClassName());
+            result.add(map);
+        }
+        return JSON.toJSONString(result);
     }
 }

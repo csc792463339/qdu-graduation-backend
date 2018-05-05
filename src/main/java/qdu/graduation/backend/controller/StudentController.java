@@ -78,5 +78,11 @@ public class StudentController {
         return studentService.getOneSubmitHomework(studentId, homeworkId);
     }
 
+    @RequestMapping(value = "/getClass", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getClassInfo(Integer studentId) {
+        logger.info("学生ID:{},查看班级", studentId);
+        return studentService.getClassInfo(studentId);
+    }
 
 }
