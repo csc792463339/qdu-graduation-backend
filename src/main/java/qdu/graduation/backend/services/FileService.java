@@ -3,20 +3,27 @@ package qdu.graduation.backend.services;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import qdu.graduation.backend.dao.FileDao;
+import qdu.graduation.backend.support.StatusCode;
 import qdu.graduation.backend.utils.RegexUtil;
 import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 @Service
 public class FileService {
+
+    @Autowired
+    FileDao fileDao;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private static String rootPath = "";
@@ -124,8 +131,22 @@ public class FileService {
         }
     }
 
-    public static void main(String[] args) {
-
+    public String saveFileInClass(String userName, String classId, String fileName, String filePath) {
+        String[] classIds = RegexUtil.findAll(classId, "(?<=\\()\\d+(?=\\))");
+        for (String id : classIds) {
+            qdu.graduation.backend.entity.File file = new qdu.graduation.backend.entity.File();
+            file.setClassId(Integer.parseInt(id));
+            file.setFileName(fileName);
+            file.setUserName(userName);
+            file.setFilePath(filePath);
+            file.setUploadTime(new Date());
+            fileDao.insert(file);
+        }
+        return StatusCode.success.toString();
     }
 
+    public String selectFileByClassId(Integer classId) {
+        List<qdu.graduation.backend.entity.File> list = fileDao.selectFileByClassId(classId);
+        return JSON.toJSONString(list);
+    }
 }

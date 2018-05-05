@@ -36,10 +36,24 @@ public class FileController {
 
     //处理文件上传
     @RequestMapping(value = "/uploadfile", method = RequestMethod.POST)
-    public @ResponseBody
-    String uploadImg(@RequestParam("file") MultipartFile file) {
+    @ResponseBody
+    public String uploadImg(@RequestParam("file") MultipartFile file) {
         logger.info("保存文件");
         return fileService.saveFile(file);
     }
 
+    //文件上传
+    @RequestMapping(value = "/saveFileInClass", method = RequestMethod.POST)
+    @ResponseBody
+    public String saveFileInClass(String userName, String classId, String fileName, String filePath) {
+        logger.info("保存文件");
+        return fileService.saveFileInClass(userName, classId, fileName, filePath);
+    }
+
+    @RequestMapping(value = "/selectFileByClassId", method = RequestMethod.POST)
+    @ResponseBody
+    public String selectFileByClassId(Integer classId) {
+        logger.info("保存文件");
+        return fileService.selectFileByClassId(classId);
+    }
 }
