@@ -20,6 +20,7 @@ import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -48,6 +49,9 @@ public class StudentApprovalService {
 
     @Autowired
     private StudentClassDao studentClassDao;
+
+    @Resource
+    private StudentService studentService;
 
     public String getApprovalList(String teacherId) {
         try {
@@ -116,23 +120,28 @@ public class StudentApprovalService {
                 perRecord.add(h + "###" + answerList.get(h));
             }
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
-            String now = perRecord.get(0);
-            logger.info(now);
-            String[] nowArr = now.split("###");
-            String questionId = nowArr[0];
-            String studentId = nowArr[1];
-            String answer = nowArr[2];
-            Question question = questionDao.selectByPrimaryKey(Integer.parseInt(questionId));
-            User user = userDao.selectByPrimaryKey(Integer.parseInt(studentId));
-            res.put("homeworkId", homeworkId);
-            res.put("questionId", question.getQuestionId());
-            res.put("userName", user.getUserName());
-            res.put("questionContent", question.getQuestionContent());
-            res.put("questionImg", question.getQuestionImg());
-            res.put("questionScore", question.getQuestionScore());
-            res.put("questionAnswer", answer);
-            res.put("studentId", studentId);
-            res.put("homeworkId", homeworkId);
+            if (perRecord.size() != 0) {
+                String now = perRecord.get(0);
+                logger.info(now);
+                String[] nowArr = now.split("###");
+                String questionId = nowArr[0];
+                String studentId = nowArr[1];
+                String answer = nowArr[2];
+                Question question = questionDao.selectByPrimaryKey(Integer.parseInt(questionId));
+                User user = userDao.selectByPrimaryKey(Integer.parseInt(studentId));
+                res.put("homeworkId", homeworkId);
+                res.put("questionId", question.getQuestionId());
+                res.put("userName", user.getUserName());
+                res.put("questionContent", question.getQuestionContent());
+                res.put("questionImg", question.getQuestionImg());
+                res.put("questionScore", question.getQuestionScore());
+                res.put("questionAnswer", answer);
+                res.put("studentId", studentId);
+                res.put("homeworkId", homeworkId);
+                res.put("othersize", perRecord.size());
+            } else {
+                res.put("homeworkId", "");
+            }
             return res.toJSONString();
         } catch (Exception e) {
             logger.info(e.getMessage());
@@ -146,6 +155,11 @@ public class StudentApprovalService {
             String field = questionId;
             String value = score;
             redisClient.hset(key, field, value);
+            //删除这道题
+//            String homeworkAnswer = homeworkId + PERANSWER;
+//            redisClient.hdel(homeworkAnswer, questionId);
+
+//            studentService.calcHomeworkScore(Integer.parseInt(studentId), Integer.parseInt(homeworkId));
             return StatusCode.success.toString();
         } catch (Exception e) {
             logger.info(e.getMessage());

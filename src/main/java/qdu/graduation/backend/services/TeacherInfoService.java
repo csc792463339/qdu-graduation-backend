@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.ClassesDao;
+import qdu.graduation.backend.dao.HomeworkDao;
 import qdu.graduation.backend.dao.NewsDao;
 import qdu.graduation.backend.dao.UserDao;
 import qdu.graduation.backend.entity.Classes;
@@ -32,6 +33,9 @@ public class TeacherInfoService {
 
     @Autowired
     private NewsDao newsDao;
+
+    @Autowired
+    private HomeworkDao homeworkDao;
 
     public String getClassesInfo() {
         try {
@@ -88,6 +92,17 @@ public class TeacherInfoService {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             res.put("news", newsDao.selectByPrimaryKey(newsId));
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
+    }
+
+    public String getHomeworkList(Integer teacherId) {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            res.put("homeworkList", homeworkDao.selectByTeacherId(teacherId));
             return res.toJSONString();
         } catch (Exception e) {
             logger.info(e.getMessage());

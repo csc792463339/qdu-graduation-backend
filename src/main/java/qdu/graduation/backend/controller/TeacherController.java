@@ -72,7 +72,7 @@ public class TeacherController {
 
     @RequestMapping(value = "/getObject", method = RequestMethod.POST)
     @ResponseBody
-    public Object getObject(String homeworkId) {
+    public Object getObject(Integer homeworkId) {
         logger.info("获取客观题答案" + homeworkId);
         return studentApprovalService.getPerAnswer(9);
     }
@@ -85,5 +85,12 @@ public class TeacherController {
         logger.info("批改客观题-questionId:" + questionId);
         logger.info("批改客观题-score:" + score);
         return studentApprovalService.insertAnswerScore(studentId, homeworkId, questionId, score);
+    }
+
+    @RequestMapping(value = "/getHomeworkList", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getHomeworkList(Integer teacherId) {
+        logger.info("获取" + teacherId + "老师的习题列表");
+        return teacherInfoService.getHomeworkList(teacherId);
     }
 }

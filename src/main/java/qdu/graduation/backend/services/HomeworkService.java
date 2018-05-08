@@ -120,13 +120,24 @@ public class HomeworkService {
                 String filed = studentsIds.get(j) + ":homework";
                 String value = deadline.toString();
                 logger.info("key=" + key + ";filed=" + filed + ";value=" + value);
-                User user = userDao.selectByPrimaryKey(Integer.parseInt(studentsIds.get(j)));
-                sendSmsService.notice(user.getUserPhone(), "接受新作业", "习题号" + questionid, "最后提交时间：" + deadline);
-                redisClient.hset(filed, key, value);
+                User user = new User();
+                try {
+                    user = userDao.selectByPrimaryKey(Integer.parseInt(studentsIds.get(j)));
+                    logger.info("成功获取学生信息:学生电话" + user.getUserPhone());
+                } catch (Exception e) {
+                    logger.info(e.getMessage());
+                }
+//                sendSmsService.notice(user.getUserPhone(), "接受新作业", "习题号" + key, "最后提交时间：" + value);
+                try {
+                    redisClient.hset(filed, key, value);
+                    logger.info("放入redis成功");
+                } catch (Exception e) {
+                    logger.info("放入redis");
+                }
             }
             return res.toJSONString();
         } catch (Exception e) {
-            logger.info(e.toString());
+            logger.info(e.getMessage());
             return StatusCode.homeworkDistributeFailed.toString();
         }
     }
