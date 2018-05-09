@@ -114,6 +114,7 @@ public class StudentService {
     }
 
     public String submitAllAnswer(Integer studentId, Integer homeworkId) {
+        redisClient.hdel(studentId + ":homework", homeworkId + "");
         String key = studentId + ":" + homeworkId + ":per";
         Map<String, String> perAnswer = redisClient.hgetall(key);
         long rank = redisClient.incr(homeworkId + ":countSubmit");
@@ -122,7 +123,7 @@ public class StudentService {
             String queueId = homeworkId + ":perAnswer";
             for (String questionId : perAnswer.keySet()) {
                 logger.info("学生 studentId:{} 的作业 homewordId:{} 有主观题还未批改", studentId, homeworkId);
-                redisClient.hset(queueId, questionId+":"+studentId,  perAnswer.get(questionId));
+                redisClient.hset(queueId, questionId + ":" + studentId, perAnswer.get(questionId));
             }
         } else {
             calcHomeworkScore(studentId, homeworkId);
@@ -134,6 +135,7 @@ public class StudentService {
     //老师批改完 将分数插入redis。 key = studentId + ":" + homeworkId + ":correct"   field：questionID   value:score
     //插入完 调一下 StudentService的calcHomeworkScore(studentId,homeworkId) 去算分
     public String calcHomeworkScore(Integer studentId, Integer homeworkId) {
+        logger.info("学生 studentId:{} 的作业 homewordId:{} 开始算分");
         String key = studentId + ":" + homeworkId + ":per";
         Map<String, String> perAnswer = redisClient.hgetall(key);
         int fullScore = 0;
@@ -155,7 +157,7 @@ public class StudentService {
                     resContent.put("myAnswer", perAnswer.get(questionId));
                     resContent.put("questionScore", question.getQuestionScore() + "");
                     fullScore += question.getQuestionScore();
-                    getScore += Integer.parseInt(correctRes.get(key));
+                    getScore += Integer.parseInt(correctRes.get(questionId));
                     resContent.put("myScore", correctRes.get(key));
                     resList.add(resContent);
                 }

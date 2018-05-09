@@ -74,7 +74,7 @@ public class TeacherController {
     @ResponseBody
     public Object getObject(Integer homeworkId) {
         logger.info("获取客观题答案" + homeworkId);
-        return studentApprovalService.getPerAnswer(9);
+        return studentApprovalService.getPerAnswer(homeworkId);
     }
 
     @RequestMapping(value = "/giveScore", method = RequestMethod.POST)

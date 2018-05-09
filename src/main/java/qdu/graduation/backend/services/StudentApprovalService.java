@@ -156,7 +156,7 @@ public class StudentApprovalService {
             redisClient.hset(key, field, value);
             //删除这道题
             String homeworkAnswer = homeworkId + PERANSWER;
-            redisClient.hdel(homeworkAnswer, questionId);
+            redisClient.hdel(homeworkAnswer, questionId + ":" + studentId);
             studentService.calcHomeworkScore(Integer.parseInt(studentId), Integer.parseInt(homeworkId));
             return StatusCode.success.toString();
         } catch (Exception e) {
