@@ -114,8 +114,7 @@ public class StudentApprovalService {
             String homeworkAnswer = homeworkId + PERANSWER;
             Map<String, String> answerList = redisClient.hgetall(homeworkAnswer);
             List<String> perRecord = new ArrayList<String>();
-            for (String h : answerList.keySet()
-                    ) {
+            for (String h : answerList.keySet()) {
                 logger.info("key:" + h + " value:" + answerList.get(h));
                 perRecord.add(h + "###" + answerList.get(h));
             }
@@ -156,10 +155,9 @@ public class StudentApprovalService {
             String value = score;
             redisClient.hset(key, field, value);
             //删除这道题
-//            String homeworkAnswer = homeworkId + PERANSWER;
-//            redisClient.hdel(homeworkAnswer, questionId);
-
-//            studentService.calcHomeworkScore(Integer.parseInt(studentId), Integer.parseInt(homeworkId));
+            String homeworkAnswer = homeworkId + PERANSWER;
+            redisClient.hdel(homeworkAnswer, questionId);
+            studentService.calcHomeworkScore(Integer.parseInt(studentId), Integer.parseInt(homeworkId));
             return StatusCode.success.toString();
         } catch (Exception e) {
             logger.info(e.getMessage());

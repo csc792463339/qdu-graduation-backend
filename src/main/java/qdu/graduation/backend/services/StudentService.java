@@ -122,7 +122,7 @@ public class StudentService {
             String queueId = homeworkId + ":perAnswer";
             for (String questionId : perAnswer.keySet()) {
                 logger.info("学生 studentId:{} 的作业 homewordId:{} 有主观题还未批改", studentId, homeworkId);
-                redisClient.hset(queueId, questionId, studentId + "###" + perAnswer.get(questionId));
+                redisClient.hset(queueId, questionId+":"+studentId,  perAnswer.get(questionId));
             }
         } else {
             calcHomeworkScore(studentId, homeworkId);

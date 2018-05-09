@@ -53,7 +53,7 @@ public class StudentController {
     @RequestMapping(value = "/getOneAnswer", method = RequestMethod.POST)
     @ResponseBody
     public Object getOneAnswer(Integer studentId, Integer homeworkId, String questionId, String type) {
-        logger.info("学生ID:{},查看答案，HomeWorkId:{},QuestionID:{},Answer:{}", studentId, homeworkId);
+        logger.info("学生ID:{},查看答案，HomeWorkId:{},QuestionID:{}", studentId, homeworkId,questionId);
         return studentService.getOneAnswer(studentId, homeworkId, questionId, type);
     }
 
