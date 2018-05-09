@@ -116,13 +116,13 @@ public class StudentApprovalService {
             List<String> perRecord = new ArrayList<String>();
             for (String h : answerList.keySet()) {
                 logger.info("key:" + h + " value:" + answerList.get(h));
-                perRecord.add(h + "###" + answerList.get(h));
+                perRecord.add(h + ":" + answerList.get(h));
             }
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             if (perRecord.size() != 0) {
                 String now = perRecord.get(0);
                 logger.info(now);
-                String[] nowArr = now.split("###");
+                String[] nowArr = now.split(":");
                 String questionId = nowArr[0];
                 String studentId = nowArr[1];
                 String answer = nowArr[2];
