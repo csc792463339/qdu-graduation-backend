@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import qdu.graduation.backend.dao.*;
 import qdu.graduation.backend.dao.cache.RedisClient;
 import qdu.graduation.backend.entity.Homework;
@@ -15,6 +16,7 @@ import qdu.graduation.backend.entity.StudentClass;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
 import qdu.graduation.backend.utils.OkHttpUtil;
+import qdu.graduation.backend.utils.RegexUtil;
 
 import java.util.*;
 
@@ -44,6 +46,7 @@ public class HomeworkService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
     private SendSmsService sendSmsService;
 
     public String insertHomework(Homework homework) {
@@ -127,7 +130,10 @@ public class HomeworkService {
                 } catch (Exception e) {
                     logger.info(e.getMessage());
                 }
-//                sendSmsService.notice(user.getUserPhone(), "接受新作业", "习题号" + key, "最后提交时间：" + value);
+                String phone= RegexUtil.findOne(user.getUserPhone(),"\\d{11}");
+                if (!StringUtils.isEmpty(phone)){
+                    sendSmsService.notice(user.getUserPhone(), "接受新作业", "习题号" + key, "最后提交时间：" + value);
+                }
                 try {
                     redisClient.hset(filed, key, value);
                     logger.info("放入redis成功");
