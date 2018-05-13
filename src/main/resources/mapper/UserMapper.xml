@@ -131,4 +131,8 @@
         where user_type = 'teacher'
     </select>
 
+    <select id="getStudentIdByTeacherId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select DISTINCT(user_id) from student_class where class_id in (select class_id from class where teacher_id = #{teacherId,jdbcType=INTEGER})
+    </select>
+
 </mapper>

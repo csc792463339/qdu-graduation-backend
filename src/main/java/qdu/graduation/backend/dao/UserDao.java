@@ -29,4 +29,6 @@ public interface UserDao {
 
     List<User> selectAllTeacher();
 
+    List<Integer> getStudentIdByTeacherId(Integer teacherId);
+
 }

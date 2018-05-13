@@ -7,15 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import qdu.graduation.backend.dao.ClassesDao;
-import qdu.graduation.backend.dao.HomeworkDao;
-import qdu.graduation.backend.dao.NewsDao;
-import qdu.graduation.backend.dao.UserDao;
+import qdu.graduation.backend.dao.*;
 import qdu.graduation.backend.entity.Classes;
+import qdu.graduation.backend.entity.StudentHomework;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jay on 2018/4/5.
@@ -36,6 +38,12 @@ public class TeacherInfoService {
 
     @Autowired
     private HomeworkDao homeworkDao;
+
+    @Autowired
+    private StudentHomeworkDao studentHomeworkDao;
+
+    @Autowired
+    private StudentClassDao studentClassDao;
 
     public String getClassesInfo() {
         try {
@@ -103,6 +111,75 @@ public class TeacherInfoService {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             res.put("homeworkList", homeworkDao.selectByTeacherId(teacherId));
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
+    }
+
+    public String getSubmitStatus(Integer teacherId) {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            logger.info("获取所有学生id");
+            List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
+            if (userIds.size() != 0) {
+                logger.info("获取提交信息");
+                String userIDs = "";
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                for (Integer id :
+                        userIds) {
+                    userIDs += id + ",";
+                }
+                userIDs = userIDs.substring(0, userIDs.length() - 1);
+                logger.info("学生id" + userIDs);
+                List<StudentHomework> homeworks = studentHomeworkDao.queryAllHomeworkByStudentIds(userIDs);
+                List<Map<String, String>> submitStaMap = new ArrayList<Map<String, String>>();
+                for (StudentHomework homework : homeworks
+                        ) {
+                    Map<String, String> submitStatu = new HashMap<String, String>();
+                    submitStatu.put("homeName", homeworkDao.selectByPrimaryKey(homework.getHomeworkId()).getHomeworkName());
+                    submitStatu.put("stuName", userDao.selectByPrimaryKey(homework.getStudentId()).getUserName());
+                    submitStatu.put("submitRank", sf.format(homework.getCorrectTime()));
+                    submitStatu.put("score", homework.getScore().toString());
+                    submitStaMap.add(submitStatu);
+                }
+                res.put("submitStatus", submitStaMap);
+            }
+            return res.toJSONString();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return JSON.parseObject(StatusCode.error.toString()).toJSONString();
+        }
+    }
+
+    public String getStudentRank(Integer teacherId) {
+        try {
+            JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            logger.info("获取所有学生id");
+            List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
+            if (userIds.size() != 0) {
+                logger.info("获取提交信息");
+                String userIDs = "";
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                for (Integer id :
+                        userIds) {
+                    userIDs += id + ",";
+                }
+                userIDs = userIDs.substring(0, userIDs.length() - 1);
+                logger.info("学生id" + userIDs);
+                List<HashMap<String, String>> userAvgs = studentHomeworkDao.getAvgScoreByStuId(userIDs);
+                List<Map<String, String>> submitStaMap = new ArrayList<Map<String, String>>();
+                for (int i = 0; i < userAvgs.size(); i++) {
+                    Map<String, String> submitStatu = new HashMap<String, String>();
+                    submitStatu.put("stuId", userAvgs.get(i).get("studentid"));
+                    int j = i + 1;
+                    submitStatu.put("order", j + "");
+                    submitStatu.put("avgscore", userAvgs.get(i).get("avgscore"));
+                    submitStaMap.add(submitStatu);
+                }
+                res.put("submitStatus", submitStaMap);
+            }
             return res.toJSONString();
         } catch (Exception e) {
             logger.info(e.getMessage());

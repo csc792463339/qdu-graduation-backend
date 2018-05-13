@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qdu.graduation.backend.services.HomeworkService;
+import qdu.graduation.backend.services.TeacherInfoService;
 import qdu.graduation.backend.support.StatusCode;
 
 import javax.annotation.Resource;
@@ -31,6 +32,9 @@ public class HomeworkController {
 
     @Resource
     private HomeworkService homeworkService;
+
+    @Resource
+    private TeacherInfoService teacherInfoService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
@@ -63,7 +67,24 @@ public class HomeworkController {
         List<String> classesList = extractMessage(classlist);
         List<String> questionsList = extractMessage(questionid);
         homeworkService.distributeClass(questionsList.get(0), classesList, d);
-        return homeworkService.distribute(questionsList.get(0), classesList,d);
+        return homeworkService.distribute(questionsList.get(0), classesList, d);
+    }
+
+    /**
+     * 获取老师的所有学生的作业情况
+     */
+    @RequestMapping(value = "/getSubmitStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getSubmitStatus(Integer teacherId) {
+        logger.info("获取老师" + teacherId + "下的学生作业提交情况");
+        return teacherInfoService.getSubmitStatus(teacherId);
+    }
+
+    @RequestMapping(value = "/getStudentRank", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getStudentRank(Integer teacherId) {
+        logger.info("获取" + teacherId + "下的学生作业情况");
+        return teacherInfoService.getStudentRank(teacherId);
     }
 
     /**
@@ -92,4 +113,5 @@ public class HomeworkController {
         }
         return list;
     }
+
 }
