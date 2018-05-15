@@ -173,6 +173,9 @@ public class TeacherInfoService {
                 for (int i = 0; i < userAvgs.size(); i++) {
                     Map<String, String> submitStatu = new HashMap<String, String>();
                     submitStatu.put("stuId", userAvgs.get(i).get("studentid"));
+                    userAvgs.get(i).get("studentid");
+                    logger.info("啦啦啦："+userAvgs.get(i).toString());
+                    System.out.println("咦咦咦："+String.valueOf(userAvgs.get(i).get("studentid")));
                     int j = i + 1;
                     submitStatu.put("order", j + "");
                     submitStatu.put("avgscore", userAvgs.get(i).get("avgscore"));
