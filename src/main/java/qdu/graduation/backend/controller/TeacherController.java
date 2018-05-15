@@ -93,4 +93,11 @@ public class TeacherController {
         logger.info("获取" + teacherId + "老师的习题列表");
         return teacherInfoService.getHomeworkList(teacherId);
     }
+
+    @RequestMapping(value = "/getClass", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getClassInfo(Integer teacherId) {
+        logger.info("老师ID:{},查看班级", teacherId);
+        return teacherInfoService.getClassInfo(teacherId);
+    }
 }

@@ -174,8 +174,9 @@ public class TeacherInfoService {
                     Map<String, String> submitStatu = new HashMap<String, String>();
                     submitStatu.put("stuId", userAvgs.get(i).get("studentid"));
                     userAvgs.get(i).get("studentid");
-                    logger.info("啦啦啦："+userAvgs.get(i).toString());
-                    System.out.println("咦咦咦："+String.valueOf(userAvgs.get(i).get("studentid")));
+                    logger.info("学生平均分信息：" + userAvgs.get(i).toString());
+                    String studentid = String.valueOf(userAvgs.get(i).get("studentid"));
+                    submitStatu.put("stuName", userDao.selectByPrimaryKey(Integer.parseInt(studentid)).getUserName());
                     int j = i + 1;
                     submitStatu.put("order", j + "");
                     submitStatu.put("avgscore", userAvgs.get(i).get("avgscore"));
@@ -188,5 +189,17 @@ public class TeacherInfoService {
             logger.info(e.getMessage());
             return JSON.parseObject(StatusCode.error.toString()).toJSONString();
         }
+    }
+
+    public String getClassInfo(Integer teacherId) {
+        List<Classes> classes = classesDao.selectAllClassesByTeacherId(teacherId);
+        List<Map<String, String>> result = new ArrayList<>();
+        for (Classes classes1 : classes) {
+            Map<String, String> map = new HashMap<>();
+            map.put("classId", classes1.getClassId().toString());
+            map.put("className", classes1.getClassName());
+            result.add(map);
+        }
+        return JSON.toJSONString(result);
     }
 }
