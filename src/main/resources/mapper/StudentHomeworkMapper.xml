@@ -65,11 +65,11 @@
     select * from student_homework where student_id = #{studentId,jdbcType=INTEGER} ORDER BY correct_time DESC
   </select>
 
-    <select id="queryAllHomeworkByStudentIds" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from student_homework where student_id IN (${_parameter}) ORDER BY correct_time DESC
+    <select id="queryAllHomeworkByStudentIds" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select * from student_homework where student_id IN (${userIDs}) AND homework_id IN (${homeworkIdStr}) ORDER BY correct_time DESC
     </select>
 
     <select id="getAvgScoreByStuId" parameterType="java.lang.String" resultType="java.util.HashMap">
-        select student_id as studentid,AVG(score) as avgscore from student_homework where student_id IN (${_parameter}) GROUP BY student_id order by avgscore desc
+        select student_id as studentid,AVG(score) as avgscore from student_homework where student_id IN (${userIDs}) AND homework_id IN (${homeworkIdStr}) GROUP BY student_id order by avgscore desc
     </select>
 </mapper>

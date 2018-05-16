@@ -5,6 +5,7 @@ import qdu.graduation.backend.entity.StudentHomework;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public interface StudentHomeworkDao {
@@ -14,7 +15,7 @@ public interface StudentHomeworkDao {
 
     List<StudentHomework> queryAllHomeworkByStudentId(Integer studentId);
 
-    List<StudentHomework> queryAllHomeworkByStudentIds(String studentIds);
+    List<StudentHomework> queryAllHomeworkByStudentIds(HashMap<String, String> paramMap);
 
-    List<HashMap<String,String>> getAvgScoreByStuId(String studentIds);
+    List<HashMap<String, String>> getAvgScoreByStuId(HashMap<String, String> paramMap);
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import qdu.graduation.backend.dao.*;
 import qdu.graduation.backend.entity.Classes;
+import qdu.graduation.backend.entity.Homework;
 import qdu.graduation.backend.entity.StudentHomework;
 import qdu.graduation.backend.entity.User;
 import qdu.graduation.backend.support.StatusCode;
@@ -122,6 +123,16 @@ public class TeacherInfoService {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
             logger.info("获取所有学生id");
+            List<Homework> homeworkIds = homeworkDao.selectByTeacherId(teacherId);
+            String homeworkIdStr = "";
+            if (homeworkIds.size() != 0) {
+                for (Homework h :
+                        homeworkIds) {
+                    homeworkIdStr += h.getHomeworkId() + ",";
+                }
+                homeworkIdStr = homeworkIdStr.substring(0, homeworkIdStr.length() - 1);
+            }
+            logger.info("习题集ids:" + homeworkIdStr);
             List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
             if (userIds.size() != 0) {
                 logger.info("获取提交信息");
@@ -133,7 +144,10 @@ public class TeacherInfoService {
                 }
                 userIDs = userIDs.substring(0, userIDs.length() - 1);
                 logger.info("学生id" + userIDs);
-                List<StudentHomework> homeworks = studentHomeworkDao.queryAllHomeworkByStudentIds(userIDs);
+                HashMap<String, String> paramMap = new HashMap<>();
+                paramMap.put("userIDs", userIDs);
+                paramMap.put("homeworkIdStr", homeworkIdStr);
+                List<StudentHomework> homeworks = studentHomeworkDao.queryAllHomeworkByStudentIds(paramMap);
                 List<Map<String, String>> submitStaMap = new ArrayList<Map<String, String>>();
                 for (StudentHomework homework : homeworks
                         ) {
@@ -156,9 +170,21 @@ public class TeacherInfoService {
     public String getStudentRank(Integer teacherId) {
         try {
             JSONObject res = JSON.parseObject(StatusCode.success.toString());
+            //获取homeworkid
+            List<Homework> homeworkIds = homeworkDao.selectByTeacherId(teacherId);
+            String homeworkIdStr = "";
+            if (homeworkIds.size() != 0) {
+                for (Homework h :
+                        homeworkIds) {
+                    homeworkIdStr += h.getHomeworkId() + ",";
+                }
+                homeworkIdStr = homeworkIdStr.substring(0, homeworkIdStr.length() - 1);
+            }
+            logger.info("习题集ids:" + homeworkIdStr);
+            //获取homeworkid
             logger.info("获取所有学生id");
             List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
-            if (userIds.size() != 0) {
+            if (userIds.size() != 0 && homeworkIds.size() !=0) {
                 logger.info("获取提交信息");
                 String userIDs = "";
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -168,7 +194,10 @@ public class TeacherInfoService {
                 }
                 userIDs = userIDs.substring(0, userIDs.length() - 1);
                 logger.info("学生id" + userIDs);
-                List<HashMap<String, String>> userAvgs = studentHomeworkDao.getAvgScoreByStuId(userIDs);
+                HashMap<String, String> paramMap = new HashMap<>();
+                paramMap.put("userIDs", userIDs);
+                paramMap.put("homeworkIdStr", homeworkIdStr);
+                List<HashMap<String, String>> userAvgs = studentHomeworkDao.getAvgScoreByStuId(paramMap);
                 List<Map<String, String>> submitStaMap = new ArrayList<Map<String, String>>();
                 for (int i = 0; i < userAvgs.size(); i++) {
                     Map<String, String> submitStatu = new HashMap<String, String>();
