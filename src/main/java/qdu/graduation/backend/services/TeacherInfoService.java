@@ -134,7 +134,7 @@ public class TeacherInfoService {
             }
             logger.info("习题集ids:" + homeworkIdStr);
             List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
-            if (userIds.size() != 0) {
+            if (userIds.size() != 0 && homeworkIds.size() != 0) {
                 logger.info("获取提交信息");
                 String userIDs = "";
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -184,7 +184,7 @@ public class TeacherInfoService {
             //获取homeworkid
             logger.info("获取所有学生id");
             List<Integer> userIds = userDao.getStudentIdByTeacherId(teacherId);
-            if (userIds.size() != 0 && homeworkIds.size() !=0) {
+            if (userIds.size() != 0 && homeworkIds.size() != 0) {
                 logger.info("获取提交信息");
                 String userIDs = "";
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
